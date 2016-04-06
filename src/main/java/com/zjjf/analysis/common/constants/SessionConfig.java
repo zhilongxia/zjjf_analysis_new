@@ -1,4 +1,4 @@
-package com.zjjf.analysis.constants;
+package com.zjjf.analysis.common.constants;
 
 public class SessionConfig {
 
@@ -11,5 +11,10 @@ public class SessionConfig {
 	public final static String user_type_key = "user_type_key";
 	
 	public final static String user_kefu = "user_kefu";
-
+	
+	public final static String user_scmg = "user_scmg";
+	
+	public final static String user_supplier = "user_supplier";
+	
+	public final static String user_authentication = "user_authentication";
 }

@@ -1,4 +1,4 @@
-package com.zjjf.analysis.constants;
+package com.zjjf.analysis.common.constants;
 
 import java.util.HashMap;
 

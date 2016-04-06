@@ -28,7 +28,7 @@
 	<bean id="springCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
 		<property name="cacheManager"  >
 			<bean class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
-				<property name="configLocation" value="classpath:config/cache/ehcache.xml" />
+				<property name="configLocation" value="classpath:conf/cache/ehcache.xml" />
 			</bean>
 		</property>
 	</bean>

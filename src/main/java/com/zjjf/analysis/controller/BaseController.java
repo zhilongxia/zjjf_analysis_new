@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ui.Model;
 
-import com.zjjf.analysis.constants.SessionConfig;
+import com.zjjf.analysis.common.constants.SessionConfig;
 
 public class BaseController {
 
@@ -21,7 +21,7 @@ public class BaseController {
 	@SuppressWarnings("unchecked")
 	public <T> T getCurrentUser(Class<T> t, HttpServletRequest request) {
 		logger.debug("enter in getCurrentUser function");
-		Object object = SecurityUtils.getSubject().getSession().getAttribute(SessionConfig.user_session_code);
+		Object object = SecurityUtils.getSubject().getSession().getAttribute(SessionConfig.user_session_key);
 		if (object != null) {
 			return (T) object;
 		}

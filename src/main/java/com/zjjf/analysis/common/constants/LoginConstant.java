@@ -1,8 +1,8 @@
-package com.zjjf.analysis.constants;
+package com.zjjf.analysis.common.constants;
 
 public class LoginConstant {
 
-	public static final String already_login_url = "";
+	public static final String already_login_url = "/analysis/authority/scmsMainPage.do";
 	
 	public static final String login_url = "/login/index";
 	

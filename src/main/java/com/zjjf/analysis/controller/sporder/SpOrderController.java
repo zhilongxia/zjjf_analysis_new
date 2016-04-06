@@ -15,7 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.zjjf.analysis.constants.ViewMap;
+import com.zjjf.analysis.common.constants.ViewMap;
 import com.zjjf.analysis.controller.BaseController;
 
 @Controller

@@ -29,7 +29,7 @@
 					<div class="text"><input type="password" value='' class="form-control" id="password" name="password" placeholder="密码"></div>
 					<div class="text">
 						<input type="text" style="padding: 0 3px; width: 80px; height: 30px; border: 1px solid #ccc" name="checkCode" placeholder="验证码">
-						<img src="${root}//analysis/authority/checkcode.do" id="J_checkCodeImg" width="100" height="30">
+						<img src="${root}/analysis/authority/checkcode.do" id="J_checkCodeImg" width="100" height="30">
 					</div>
 					<button type="button" class="login-btn" id="J_submitBtn">登　录</button>
 				</form>
@@ -56,7 +56,7 @@
 			} else {
 				$.ajax({
 					type: "POST",
-					url: "${root}/analysis/authority/scmsLoginPage.do",
+					url: "${root}/analysis/authority/userLoginIn.do",
 					async: true,
 					data: encodeURI($("#entryform").serialize()),
 					success: function(date) {
