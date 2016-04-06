@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <% request.setAttribute("root", request.getContextPath()); %>
 <nav id="nav">
     <a href="${root}/toMainPage.do" target="mainiframe"><h1></h1></a>
@@ -31,9 +32,11 @@
         <li>
             <div class="category"><a href="${root}/gateway/graph_char.do" target="mainiframe"><i class="icon icon-wallet"></i>全局统计数据分析</a></div>
         </li>
-        <li>
-            <div class="category"><a href="${root}/api/sp_order/loadPage.do" target="mainiframe"><i class="icon icon-wallet"></i>交易订单数据分析</a></div>
-        </li>
+        <shiro:hasRole name="admin">
+   	    	<li>
+	            <div class="category"><a href="${root}/api/sp_order/loadPage.do" target="mainiframe"><i class="icon icon-wallet"></i>交易订单数据分析</a></div>
+	        </li>
+		</shiro:hasRole>
         <li>
             <div class="category"><a href="${root}/analysis/statis/toStatisPage.do" target="mainiframe"><i class="icon icon-wallet"></i>全局统计</a></div>
         </li>
