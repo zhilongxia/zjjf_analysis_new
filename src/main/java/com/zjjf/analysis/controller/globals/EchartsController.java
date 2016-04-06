@@ -15,7 +15,7 @@ import com.zjjf.analysis.utils.ZfEcharts;
 
 @Controller
 @RequestMapping({ "/gateway" })
-public class IndexController {
+public class EchartsController {
 
 	@Autowired
 	private GraphEchartsOptionServiceImpl graphOptionService;

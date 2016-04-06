@@ -21,22 +21,24 @@ default-autowire="byName">
     </bean>  
       
     <!-- 配置shiro的过滤器工厂类，id- shiroFilter要和我们在web.xml中配置的过滤器一致 -->  
-    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">   
-        <property name="securityManager" ref="securityManager" />
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">  
+    	<property name="securityManager" ref="securityManager" />
 		<property name="loginUrl" value="/analysis/authority/scmsLoginPage.do" />
 		<property name="successUrl" value="/analysis/authority/scmsIndexPage.do" />
-		<property name="unauthorizedUrl" value="/analysis/authority/scmsLoginPage.do" /> 
-        <property name="filterChainDefinitions">    
-            <value>
+		<property name="unauthorizedUrl" value="/analysis/authority/scmsLoginPage.do" />
+		<property name="filterChainDefinitions">
+			<value>
 				/resources/**=anon
 				/analysis/authority/scmsLoginPage.do=anon
-				/analysis/authority/supplierLoginIn.do=anon
+				/analysis/authority/userLoginIn.do=anon
 				/analysis/authority/scMgLoginIn.do=anon
 				/analysis/authority/doLoginOut.do=anon
+				/api/sp_order/**.do=authc,perms[manager] <!-- 需要名称为blog的权限permission-->
+                /api/sp_order/**.do=authc,roles[admin] <!-- 需要名称为admin的角色role-->
 				/checkcode.do=anon
-				/**=authc
+			<!-- 	/**=authc -->
 			</value>
-        </property>    
+		</property>   
     </bean>  
       
     <bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" />    
