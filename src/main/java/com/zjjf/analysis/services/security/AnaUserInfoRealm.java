@@ -62,7 +62,11 @@ public class AnaUserInfoRealm extends AuthorizingRealm {
 				// 添加一个角色,不是配置意义上的添加,而是证明该用户拥有admin角色
 				authorizationInfo.addRole("admin");
 				// 添加权限
-				authorizationInfo.addStringPermission("admin:manage");
+				Set<String> permissionsSet = new HashSet<String>();
+				permissionsSet.add("admin:manage");
+				permissionsSet.add("abc:manage");
+//				authorizationInfo.addStringPermission("admin:manage");
+				authorizationInfo.addStringPermissions(permissionsSet);
 				System.out.println("已为用户[test]赋予了[admin]角色和[admin:manage]权限");
 				return authorizationInfo;
 			}
