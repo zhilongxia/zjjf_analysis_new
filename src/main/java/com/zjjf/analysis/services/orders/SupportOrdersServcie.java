@@ -15,11 +15,8 @@ public class SupportOrdersServcie extends AbstractBaseServcie {
 	@Autowired
 	SupportOrderPageMapper supportOrderPageMapper;
 	
-	public List<Object[]> getOrderData(){
+	public List<Object[]> getOrderData(HashMap<String, Object> paramMap){
 		
-		HashMap<String, Object> paramMap = new HashMap<String, Object>();
-		
-		paramMap.put("keyColumn", "");
 		List<HashMap<String, Object>> dataList = supportOrderPageMapper.getOrderData(paramMap);
 		return stand_by_title(dataList, getOrderTitle());
 	}

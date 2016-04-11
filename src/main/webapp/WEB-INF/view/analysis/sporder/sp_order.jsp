@@ -34,13 +34,13 @@
     <div class="mb-default">
         <span class="crumb">全局统计</span><span class="crumb-active">核心数据汇总</span>
     </div>
-    <div class="mb-small clearfix" ng-controller="query_order">
+    <div class="mb-small clearfix" ng-controller="queryController">
        <form action="${root}/analysis/statis/getStatisList.do" method="post" id="searchForm">
         <label>查询时间</label>
         <input type="text" name="startTime" id="startTime" value="${statisVo.startTime}" class="input input-search-date J_DATE_START" placeholder="" ng-model="startTimess" />
         &nbsp;至&nbsp;
         <input type="text" name="endTime" id="endTime" value="${statisVo.endTime}" class="input input-search-date mr-small J_DATE_END" placeholder="" />
-        <input type="button" class="input input-search-button ml-default"  id="btnQuery" value="搜索"  ng-click="queryOrders()"/>
+        <input type="button" class="input input-search-button ml-default"  id="btnQuery" value="搜索"  onclick="queryOrders()"/>
         <input type="button" class="input input-search-button ml-default"  id="btnExport" value="导出"/>
        </form>
     </div>
@@ -64,7 +64,7 @@
 	    	<li><a data-page-index="1">2</a></li>
 	    	<li><a data-page-index="2">3</a></li>
 	    	<li><a data-page-index="3">4</a></li>
-	    	<li><a data-page-index="1">下一页</a></li>
+	    	<li><a data-page-index="1" onclick="nextPage(2);">下一页</a></li>
 	    	<li><a data-page-index="6050">尾页</a></li>
     	</ul>
     <div class="m-pagination-size" style="display: none;">
@@ -86,13 +86,12 @@
 <script>
 
 	var tableController_url = '<%=request.getContextPath() %>/api/sp_order/spOrderList.do';
-/* 	var app = angular.module('orderTable', []); // 第二个参数定义了Module依赖 */
-	var app = angular.module('orderTable', []);
+ 	var app = angular.module('orderTable', []); // 第二个参数定义了Module依赖 
 
 	app.config(function($httpProvider) {
 	    $httpProvider.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded';
 	    $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-	 
+
 	    // Override $http service's default transformRequest
 	    $httpProvider.defaults.transformRequest = [function(data) {
 	        /**
@@ -137,23 +136,41 @@
 	                : data;
 	    }];
 	});
-
-	app.controller('tableController', ['$scope','$http', function($scope,$http) {
+	
+	app.controller('tableController', ['$scope','$http', function($scope, $http) {
 		var data = {name:'angular',password:'333',age:1};
 		$http.post(tableController_url, data).success(function(result) { 
-			 $scope.cn_keys = result.key_cn; 
-			 $scope.key_dataList = result.dataList; 
+			 $scope.key_dataList = result.dataList;
+			 $scope.cn_keys = result.key_cn;
 		}).error(function(result) {  
 			 alert("an unexpected error ocurred!");
 		}); 
-	}]);
-
- 	app.controller('query_order', ['$scope', '$http', function($scope, $http) {
-
-		$scope.queryOrders = function(){
-		    alert($scope.startTimess); 	
+		// 下一页
+		nextPage = function(nextPage){
+			var data = {"nextPage":nextPage};
+			$http.post(tableController_url, data).success(function(result) { 
+				$scope.cn_keys = result.key_cn; 
+				$scope.key_dataList = result.dataList; 
+			}).error(function(result) {  
+				 alert("an unexpected error ocurred!");
+			}); 
+		}
+		// 查询订单列表
+		queryOrders = function(){
+			var data = {"nextPage":3};
+			$http.post(tableController_url, data).success(function(result) { 
+				$scope.cn_keys = result.key_cn; 
+				$scope.key_dataList = result.dataList; 
+			}).error(function(result) {  
+				 alert("an unexpected error ocurred!");
+			});  	
 		}
 	}]);
+	
+	app.controller('queryController', ['$scope','$http', function($scope, $http) {
+		
+	}]);
+	
 </script>
 </body>
 </html>

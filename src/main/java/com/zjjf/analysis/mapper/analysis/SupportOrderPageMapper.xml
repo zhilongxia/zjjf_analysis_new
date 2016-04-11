@@ -68,7 +68,7 @@
 	  left join `base_supplier` t3 ON t3.id = t.`supplierId`
 	  left join `base_spgroup` t4 ON t4.id = t.`spGroupId`
 	  left join `base_store` t5 ON t5.id = t.`storeId`
-	limit 5, 5 
+	limit #{limit}, 5 
   </select>
  
 </mapper>
