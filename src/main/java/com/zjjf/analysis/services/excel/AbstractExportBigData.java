@@ -1,4 +1,4 @@
-package com.zjjf.analysis.common.excel;
+package com.zjjf.analysis.services.excel;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,6 +19,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.support.JdbcUtils;
+import org.springframework.stereotype.Service;
 
 /**
  * 大数据量导出 抽象类
@@ -26,6 +27,7 @@ import org.springframework.jdbc.support.JdbcUtils;
  * @author lisen
  * @date 2013-10-30 上午10:40:33
  */
+@Service
 public abstract class AbstractExportBigData implements ExportBigData {
 	/**
 	 * 每个文件的最大行数 超过请求按默认算

@@ -13,15 +13,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.zjjf.analysis.services.excel.AbstractExportBigData;
+import com.zjjf.analysis.services.excel.ExportBigData;
 import com.zjjf.analysis.utils.DateUtils;
 
-public class ExcelExportServcice {
+public class ExcelExportServciceImpl {
 	
-	private static Logger logger = LoggerFactory.getLogger(ExcelExportServcice.class);
+	private static Logger logger = LoggerFactory.getLogger(ExcelExportServciceImpl.class);
 	
 	@Autowired
-	private AbstractExportBigData exportBigData;
+	private ExportBigData exportBigData;
 	
 	
 	/**

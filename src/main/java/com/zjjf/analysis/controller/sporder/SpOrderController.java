@@ -1,5 +1,6 @@
 package com.zjjf.analysis.controller.sporder;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +20,9 @@ import com.zjjf.analysis.services.orders.SupportOrdersServcie;
 public class SpOrderController extends BaseController {
 
 	private final Integer limit = 5;
-	
+
+	private final Integer offset = 5;
+
 	@Autowired
 	private SupportOrdersServcie supportOrdersServcie;
 
@@ -41,11 +44,16 @@ public class SpOrderController extends BaseController {
 	@ResponseBody
 	public HashMap<String, Object> querySpOrders(HttpServletRequest request) {
 
-		String nextPage = request.getParameter("nextPage") == null? "1" : request.getParameter("nextPage");
+		String currentPage = request.getParameter("currentPage") == null ? "1" : request.getParameter("currentPage");
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		HashMap<String, Object> paramMap = new HashMap<String, Object>();
+
+		HashMap<String, Object> paramMap = getQueryMap(request, Arrays.asList("cityId", "areaId", "spGroupId", "supportmetho", "status", "orderNo",
+				"chirdOrderNo", "storeName", "supplierName", "addTimeBegin", "addTimeEnd"));
+
+		paramMap.put("pageNo", Integer.valueOf(currentPage) * limit);
+		paramMap.put("offset", offset);
 		logger.info("交易订单传入参数 paramMap:" + paramMap);
-		paramMap.put("limit", Integer.valueOf(nextPage) * limit);
+
 		resultMap.put("key_cn", supportOrdersServcie.getOrderColumnName());
 		resultMap.put("dataList", supportOrdersServcie.getOrderData(paramMap));
 		return resultMap;

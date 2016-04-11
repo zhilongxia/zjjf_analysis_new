@@ -68,7 +68,39 @@
 	  left join `base_supplier` t3 ON t3.id = t.`supplierId`
 	  left join `base_spgroup` t4 ON t4.id = t.`spGroupId`
 	  left join `base_store` t5 ON t5.id = t.`storeId`
-	limit #{limit}, 5 
+	  <where>
+		  <if test="areaId != null and areaId != '' " >
+	      	and t.areaId = #{areaId}
+	      </if>
+	      <if test="cityId != null and cityId != '' " >
+	      	and t.cityId = #{cityId}
+	      </if>
+	      <if test="spGroupId != null and spGroupId != '' " >
+	      	and t.spGroupId = #{spGroupId}
+	      </if>
+	      <if test="supportmetho != null and supportmetho != '' " >
+	      	and t.supportmetho = #{supportmetho}
+	      </if>
+	      <if test="status != null and status != '' " >
+	      	and t.status = #{status}
+	      </if>
+	      <if test="orderNos != null and orderNos != '' " >
+	      	and (t.chirdOrderNo like '%orderNos%' or t.orderNo like '%orderNos%')
+	      </if>
+	      <if test="storeName != null and storeName != '' " >
+	      	and t5.name like '%storeName%'
+	      </if>
+	      <if test="areaId != null and areaId != '' " >
+	      	and t3.supplierName like '%supplierName%'
+	      </if>
+	      <if test="addTimeBegin != null and addTimeBegin != '' " >
+	      	and DATE_FORMAT(t.addTime, '%Y-%m-%d') &gt;= #{addTimeBegin}
+	      </if>
+	      <if test="addTimeEnd != null and addTimeEnd != '' " >
+	      	and DATE_FORMAT(t.addTime, '%Y-%m-%d') &lt;= #{addTimeEnd}
+	      </if>
+	  </where>
+	  limit #{pageNo}, #{offset}
   </select>
  
 </mapper>

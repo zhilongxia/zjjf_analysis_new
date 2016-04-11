@@ -1,5 +1,6 @@
 eclipse.preferences.version=1
 encoding//src/main/java=utf8
+encoding//src/main/java/com/zjjf/analysis/controller/export/ExcelExportController.java=GBK
 encoding//src/main/java/com/zjjf/analysis/controller/globals/EchartsController.java=GBK
 encoding//src/main/java/com/zjjf/analysis/controller/globals/GlobalStatisController.java=UTF-8
 encoding//src/main/java/com/zjjf/analysis/controller/login/LoginController.java=GBK

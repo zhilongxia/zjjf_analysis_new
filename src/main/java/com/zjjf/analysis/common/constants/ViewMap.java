@@ -7,7 +7,7 @@ public class ViewMap {
 		String[][]  viewTable = new String[18][2];
 		viewTable[0] = new String[]{"cityName", "城市"};
 		viewTable[1] = new String[]{"areaName", "区域"};
-		viewTable[2] = new String[]{"gridName", "定格"};
+		viewTable[2] = new String[]{"spGroupName", "定格"};
 		viewTable[3] = new String[]{"storeName", "便利店名称"};
 		viewTable[4] = new String[]{"addTime", "下单时间"};
 		viewTable[5] = new String[]{"orderNo", "订单号"};

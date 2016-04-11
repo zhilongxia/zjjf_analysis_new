@@ -6,45 +6,37 @@
 <head>
     <meta charset="UTF-8">
     <title>街坊店宝</title>
-    <meta name="description" content="">
-    <meta name="keywords" content="">
-	<%@ include file="../../common/head.jsp"%>
+    <%@ include file="../../common/head.jsp"%>
  	<script src="<%=request.getContextPath() %>/resources/js/echarts/echarts.js"></script>
-	<script src="<%=request.getContextPath() %>/resources/js/jquery/jquery-1.9.1.min.js"></script>
-	<link src="${root}/resources/vendor/My97DatePicker/skin/WdatePicker.css">
-	<script src="${root}/resources/vendor/My97DatePicker/WdatePicker.js"></script>
-	<script src="${root}/resources/js/comm.js"></script>
-	<script src="${root}/resources/analysis/globalStatisList.js"></script>
-	<script src="<%=request.getContextPath() %>/resources/js/angular/angular.js"></script>
-	<link rel="stylesheet" href="${root}/resources/vendor/jquery/pagination/mricode.pagination.css">
-	<script src="${root}/resources/vendor/jquery/pagination/mricode.pagination.js"></script>
-	<style>
-		#jpagination {margin: 8px 0; float: right}
-	</style>
-    <style>
-    	.sxedit {visibility: hidden;}
-    	tr:hover .sxedit {visibility: visible;}
-		.colora {color: #ed4b1c;}
-		.colorb {color: #06ada3;}
-    </style>
+ 	<script src="<%=request.getContextPath() %>/resources/js/jquery/jquery-1.9.1.min.js"></script>
+    <link href="${root}/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <script src="<%=request.getContextPath() %>/resources/js/angular/angular.js"></script>
+    <script src="${root}/resources/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body>
 <!-- 全局统计列表begin -->
-<div class="wrap-bd" ng-app="orderTable">
+<div class="wrap-bd" ng-app="orderTable" ng-controller="tableController">
     <div class="mb-default">
         <span class="crumb">全局统计</span><span class="crumb-active">核心数据汇总</span>
     </div>
-    <div class="mb-small clearfix" ng-controller="queryController">
+    <div class="mb-small clearfix">
        <form action="${root}/analysis/statis/getStatisList.do" method="post" id="searchForm">
         <label>查询时间</label>
-        <input type="text" name="startTime" id="startTime" value="${statisVo.startTime}" class="input input-search-date J_DATE_START" placeholder="" ng-model="startTimess" />
-        &nbsp;至&nbsp;
-        <input type="text" name="endTime" id="endTime" value="${statisVo.endTime}" class="input input-search-date mr-small J_DATE_END" placeholder="" />
-        <input type="button" class="input input-search-button ml-default"  id="btnQuery" value="搜索"  onclick="queryOrders()"/>
-        <input type="button" class="input input-search-button ml-default"  id="btnExport" value="导出"/>
+        <div class="input-append date" id="datetimepicker" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
+		   <input class="span2" size="16" type="text" value="12-02-2012">
+		   <span class="add-on"><i class="icon-remove"></i></span>
+		   <span class="add-on"><i class="icon-th"></i></span>
+		</div>
+		<div class="input-append date" id="datetimepicker" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
+		   <input class="span2" size="16" type="text" value="12-02-2012">
+		   <span class="add-on"><i class="icon-remove"></i></span>
+		   <span class="add-on"><i class="icon-th"></i></span>
+		</div>
+        <input type="button" class="input input-search-button ml-default"  id="btnQuery" value="搜索"  ng-click="queryOrders();"/>
+        <input type="button" class="input input-search-button ml-default"  id="btnExport" value="导出" ng-click="excelExport();"/>
        </form>
     </div>
-    <div ng-controller="tableController">
+    <div>
         <table class="table-list table-border">
             <thead class="table-thead">
  				<tr class="table-header">
@@ -64,7 +56,7 @@
 	    	<li><a data-page-index="1">2</a></li>
 	    	<li><a data-page-index="2">3</a></li>
 	    	<li><a data-page-index="3">4</a></li>
-	    	<li><a data-page-index="1" onclick="nextPage(2);">下一页</a></li>
+	    	<li><a data-page-index="1" ng-click="nextPage(2);">下一页</a></li>
 	    	<li><a data-page-index="6050">尾页</a></li>
     	</ul>
     <div class="m-pagination-size" style="display: none;">
@@ -83,9 +75,12 @@
     <div class="m-pagination-info" style="display: none;">1 ~ 10 of 60507 entires</div></div>
 </div>
 <!-- 全局统计列表end -->
-<script>
 
+<script type="text/javascript">
+   
 	var tableController_url = '<%=request.getContextPath() %>/api/sp_order/spOrderList.do';
+	var export_url = '<%=request.getContextPath() %>/report/excelExport/portExcel.do';
+	
  	var app = angular.module('orderTable', []); // 第二个参数定义了Module依赖 
 
 	app.config(function($httpProvider) {
@@ -138,15 +133,19 @@
 	});
 	
 	app.controller('tableController', ['$scope','$http', function($scope, $http) {
+		
 		var data = {name:'angular',password:'333',age:1};
+		
 		$http.post(tableController_url, data).success(function(result) { 
-			 $scope.key_dataList = result.dataList;
-			 $scope.cn_keys = result.key_cn;
+			$scope.cn_keys = result.key_cn;
+			$scope.key_dataList = result.dataList;
 		}).error(function(result) {  
 			 alert("an unexpected error ocurred!");
 		}); 
+		
 		// 下一页
-		nextPage = function(nextPage){
+		$scope.nextPage = function(nextPage){
+			alert($scope.startTimess);
 			var data = {"nextPage":nextPage};
 			$http.post(tableController_url, data).success(function(result) { 
 				$scope.cn_keys = result.key_cn; 
@@ -155,8 +154,9 @@
 				 alert("an unexpected error ocurred!");
 			}); 
 		}
+		
 		// 查询订单列表
-		queryOrders = function(){
+		$scope.queryOrders = function(){
 			var data = {"nextPage":3};
 			$http.post(tableController_url, data).success(function(result) { 
 				$scope.cn_keys = result.key_cn; 
@@ -165,12 +165,18 @@
 				 alert("an unexpected error ocurred!");
 			});  	
 		}
-	}]);
-	
-	app.controller('queryController', ['$scope','$http', function($scope, $http) {
+		
+		$scope.excelExport = function(){
+		
+			$http.post(export_url, data).success(function(result) { 
+				
+			}).error(function(result) {  
+				 alert("an unexpected error ocurred!");
+			});  	
+		}
+		
 		
 	}]);
-	
 </script>
 </body>
 </html>

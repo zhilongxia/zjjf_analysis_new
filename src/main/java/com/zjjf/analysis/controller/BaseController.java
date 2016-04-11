@@ -2,6 +2,7 @@ package com.zjjf.analysis.controller;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -95,6 +96,41 @@ public class BaseController {
 				value = valueObj.toString();
 			}
 			returnMap.put(name, value);
+		}
+		return returnMap;
+	}
+	
+	/**
+	 * 将request的参数转换成map
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public HashMap<String, Object> getQueryMap(HttpServletRequest request, List<String> keyList) {
+		// 参数Map
+		Map<String, String[]> properties = request.getParameterMap();
+		// 返回值Map
+		HashMap<String, Object> returnMap = new HashMap<String, Object>();
+		Iterator<Entry<String, String[]>> entries = properties.entrySet().iterator();
+		Map.Entry<String, String[]> entry;
+		String name = "";
+		String value = "";
+		while (entries.hasNext()) {
+			entry = entries.next();
+			name = entry.getKey();
+			Object valueObj = entry.getValue();
+			if (valueObj instanceof String[]) {
+				String[] values = (String[]) valueObj;
+				for (int i = 0; i < values.length; i++) {
+					value = values[i] + ",";
+				}
+				value = value.substring(0, value.length() - 1);
+			} else {
+				value = valueObj.toString();
+			}
+			if(keyList.contains(name)){
+				returnMap.put(name, value);
+			}
 		}
 		return returnMap;
 	}

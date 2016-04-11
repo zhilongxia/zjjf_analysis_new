@@ -1,4 +1,4 @@
-package com.zjjf.analysis.common.excel;
+package com.zjjf.analysis.services.excel;
 
 import java.io.OutputStream;
 import java.util.Collection;
