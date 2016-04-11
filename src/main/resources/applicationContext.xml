@@ -48,7 +48,7 @@
     <import resource="conf/sessionfactory/sqlSessionFactory.xml"/>
     <import resource="conf/scan/mapperScannerConfigurer.xml"/>
     <import resource="conf/shiro/spring-shiro.xml"/>
-    <import resource="conf/dubbo/spring-dubbo.xml"/>
+<!--     <import resource="conf/dubbo/spring-dubbo.xml"/> -->
 <!--      <import resource="conf/cache/spring-ehcache.xml"/>
     
     通用缓存配置

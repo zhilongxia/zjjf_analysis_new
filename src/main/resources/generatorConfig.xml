@@ -10,25 +10,25 @@
 			<property name="prjname" value="zjjf_analysis_new" />
 		</commentGenerator>
 
-<!-- 	    <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://127.0.0.1:3306/analysis_db" userId="root" password="123456" />
+ 	    <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://127.0.0.1:3306/analysis_db" userId="root" password="123456" />
 
-		<javaModelGenerator targetPackage="com.zjjf.analysis.beans.local"
+		<javaModelGenerator targetPackage="com.zjjf.analysis.beans.analysis.orders"
 			targetProject="zjjf_analysis_new">
 			<property name="enableSubPackages" value="true" />
 			<property name="trimStrings" value="true" />
 		</javaModelGenerator>
 
-		<sqlMapGenerator targetPackage="com.zjjf.analysis.mapper.local"
+		<sqlMapGenerator targetPackage="com.zjjf.analysis.mapper.analysis"
 			targetProject="zjjf_analysis_new">
 			<property name="enableSubPackages" value="true" />
 		</sqlMapGenerator>
 
-		<javaClientGenerator type="XMLMAPPER" targetPackage="com.zjjf.analysis.mapper.local" targetProject="zjjf_analysis_new">
+		<javaClientGenerator type="XMLMAPPER" targetPackage="com.zjjf.analysis.mapper.analysis" targetProject="zjjf_analysis_new">
 			<property name="enableSubPackages" value="true" />
-		</javaClientGenerator> -->
+		</javaClientGenerator>
 		
 		
-  		<jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://192.168.1.11:3316/dataImport" userId="gg" password="gg2802" />
+<!--   		<jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://192.168.1.11:3316/dataImport" userId="gg" password="gg2802" />
 		
 		<javaModelGenerator targetPackage="com.zjjf.analysis.beans.analysis"
 			targetProject="zjjf_analysis_new">
@@ -44,8 +44,8 @@
 		<javaClientGenerator type="XMLMAPPER" targetPackage="com.zjjf.analysis.mapper.analysis" targetProject="zjjf_analysis_new">
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
-
-		<table tableName="CustomerService" domainObjectName="CustomerService"
+ -->
+		<table tableName="support_order_page" domainObjectName="SupportOrderPage"
 			enableCountByExample="false" enableUpdateByExample="false"
 			enableDeleteByExample="false" enableSelectByExample="false"
 			selectByExampleQueryId="false">

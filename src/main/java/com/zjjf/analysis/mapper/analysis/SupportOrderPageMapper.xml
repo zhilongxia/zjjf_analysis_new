@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zjjf.analysis.mapper.analysis.SupportOrderPageMapper" >
+  <resultMap id="BaseResultMap" type="com.zjjf.analysis.beans.analysis.orders.SupportOrderPage" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="cityId" property="cityId" jdbcType="INTEGER" />
+    <result column="areaId" property="areaId" jdbcType="INTEGER" />
+    <result column="spGroupId" property="spGroupId" jdbcType="INTEGER" />
+    <result column="storeId" property="storeId" jdbcType="INTEGER" />
+    <result column="addTime" property="addTime" jdbcType="VARCHAR" />
+    <result column="orderNo" property="orderNo" jdbcType="VARCHAR" />
+    <result column="chirdOrderNo" property="chirdOrderNo" jdbcType="VARCHAR" />
+    <result column="quantity" property="quantity" jdbcType="INTEGER" />
+    <result column="sku" property="sku" jdbcType="INTEGER" />
+    <result column="goodsPrice" property="goodsPrice" jdbcType="DECIMAL" />
+    <result column="coupon" property="coupon" jdbcType="DECIMAL" />
+    <result column="rebate" property="rebate" jdbcType="DECIMAL" />
+    <result column="orderPrice" property="orderPrice" jdbcType="DECIMAL" />
+    <result column="fee" property="fee" jdbcType="DECIMAL" />
+    <result column="supportmetho" property="supportmetho" jdbcType="INTEGER" />
+    <result column="supportStatus" property="supportStatus" jdbcType="INTEGER" />
+    <result column="supplierId" property="supplierId" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="createTime" property="createTime" jdbcType="INTEGER" />
+    
+    <result column="supplierName" property="supplierName" jdbcType="VARCHAR" />
+    <result column="cityName" property="cityName" jdbcType="VARCHAR" />
+    <result column="areaName" property="areaName" jdbcType="VARCHAR" />
+    <result column="spGroupName" property="spGroupName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, cityId, areaId, storeId, spGroupId, addTime, orderNo, chirdOrderNo, quantity, sku, goodsPrice, 
+    coupon, rebate, orderPrice, fee, supportmetho, supportStatus, supplierId, status, 
+    updateTime, createTime
+  </sql>
+  
+  <select id="getOrderData" resultType="java.util.Map" parameterType="java.util.Map" >
+	  select 
+		  t2.`name` AS "cityName",
+		  t1.`name` AS "areaName",
+		  t4.name as "spGroupName",
+		  t5.name as "storeName",
+		  t.addTime,
+		  DATE_FORMAT(t.addTime, '%Y-%m-%d') AS "addTime",
+		  t.orderNo,
+		  t.chirdOrderNo,
+		  t.quantity,
+		  t.sku,
+		  t.goodsPrice,
+		  t.coupon,
+		  t.rebate,
+		  t.orderPrice,
+		  t.fee,
+		  t.supportmetho,
+		  t.supportStatus,
+		  t.supplierId,
+		  t3.supplierName,
+		  t.status,
+		  t.updateTime,
+		  t.createTime,
+		  t.id
+	from
+	  support_order_page t 
+	  left join `base_region` t1 ON t.`areaId` = t1.`id`
+	  left join `base_region` t2 ON t.cityId = t2.id
+	  left join `base_supplier` t3 ON t3.id = t.`supplierId`
+	  left join `base_spgroup` t4 ON t4.id = t.`spGroupId`
+	  left join `base_store` t5 ON t5.id = t.`storeId`
+	limit 5, 5 
+  </select>
+ 
+</mapper>

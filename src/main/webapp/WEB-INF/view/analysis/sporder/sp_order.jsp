@@ -37,7 +37,7 @@
     <div class="mb-small clearfix" ng-controller="query_order">
        <form action="${root}/analysis/statis/getStatisList.do" method="post" id="searchForm">
         <label>查询时间</label>
-        <input type="text" name="startTime" id="startTime" value="${statisVo.startTime}" class="input input-search-date J_DATE_START" placeholder="" />
+        <input type="text" name="startTime" id="startTime" value="${statisVo.startTime}" class="input input-search-date J_DATE_START" placeholder="" ng-model="startTimess" />
         &nbsp;至&nbsp;
         <input type="text" name="endTime" id="endTime" value="${statisVo.endTime}" class="input input-search-date mr-small J_DATE_END" placeholder="" />
         <input type="button" class="input input-search-button ml-default"  id="btnQuery" value="搜索"  ng-click="queryOrders()"/>
@@ -87,102 +87,73 @@
 
 	var tableController_url = '<%=request.getContextPath() %>/api/sp_order/spOrderList.do';
 /* 	var app = angular.module('orderTable', []); // 第二个参数定义了Module依赖 */
-	var app = angular.module('orderTable', [], function ($httpProvider) {
-	    // Use x-www-form-urlencoded Content-Type
-	    $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+	var app = angular.module('orderTable', []);
 
-	    /**
-	    * The workhorse; converts an object to x-www-form-urlencoded serialization.
-	    * @param {Object} obj
-	    * @return {String}
-	    */
-	    var param = function (obj) {
-	        var query = '', name, value, fullSubName, subName, subValue, innerObj, i;
-
-	        for (name in obj) {
-	            value = obj[name];
-
-	            if (value instanceof Array) {
-	                for (i = 0; i < value.length; ++i) {
-	                    subValue = value[i];
-	                    fullSubName = name + '[' + i + ']';
-	                    innerObj = {};
-	                    innerObj[fullSubName] = subValue;
-	                    query += param(innerObj) + '&';
-	                }
-	            }
-	            else if (value instanceof Object) {
-	                for (subName in value) {
-	                    subValue = value[subName];
-	                    fullSubName = name + '[' + subName + ']';
-	                    innerObj = {};
-	                    innerObj[fullSubName] = subValue;
-	                    query += param(innerObj) + '&';
-	                }
-	            }
-	            else if (value !== undefined && value !== null)
-	                query += encodeURIComponent(name) + '=' + encodeURIComponent(value) + '&';
-	        }
-
-	        return query.length ? query.substr(0, query.length - 1) : query;
-	    };
-
+	app.config(function($httpProvider) {
+	    $httpProvider.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded';
+	    $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+	 
 	    // Override $http service's default transformRequest
-	    $httpProvider.defaults.transformRequest = [function (data) {
-	        return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
-	    } ];
+	    $httpProvider.defaults.transformRequest = [function(data) {
+	        /**
+	         * The workhorse; converts an object to x-www-form-urlencoded serialization.
+	         * @param {Object} obj
+	         * @return {String}
+	         */
+	        var param = function(obj) {
+	            var query = '';
+	            var name, value, fullSubName, subName, subValue, innerObj, i;
+	 
+	            for (name in obj) {
+	                value = obj[name];
+	 
+	                if (value instanceof Array) {
+	                    for (i = 0; i < value.length; ++i) {
+	                        subValue = value[i];
+	                        fullSubName = name + '[' + i + ']';
+	                        innerObj = {};
+	                        innerObj[fullSubName] = subValue;
+	                        query += param(innerObj) + '&';
+	                    }
+	                } else if (value instanceof Object) {
+	                    for (subName in value) {
+	                        subValue = value[subName];
+	                        fullSubName = name + '[' + subName + ']';
+	                        innerObj = {};
+	                        innerObj[fullSubName] = subValue;
+	                        query += param(innerObj) + '&';
+	                    }
+	                } else if (value !== undefined && value !== null) {
+	                    query += encodeURIComponent(name) + '='
+	                            + encodeURIComponent(value) + '&';
+	                }
+	            }
+	 
+	            return query.length ? query.substr(0, query.length - 1) : query;
+	        };
+	 
+	        return angular.isObject(data) && String(data) !== '[object File]'
+	                ? param(data)
+	                : data;
+	    }];
 	});
-	
-	
-	//添加controller
-/* 	app.config(['$routeProvider',function ($routeProvider) {
-	      $routeProvider
-	      .when('/list', {
-	        templateUrl: 'views/route/list.html',
-	        controller: 'RouteListCtl'
-	      })
-	      .when('/list/:id', {
-	          templateUrl: 'views/route/detail.html',
-	          controller: 'RouteDetailCtl'
-	      })
-	      .otherwise({
-	        redirectTo: '/list'
-	      });
-	}]); */
-	
-	//添加controller
-	app.controller("tableController", ['$scope','$http', function($scope, $http) {
-		
-		var postData= ({type:'text/plain'});
-		//下面这一行会被当成参数附加到URL后面，所以post请求最终会变成/api/user?id=5  
-		var config = {params: {id: '5'}};  
-		$http.post(tableController_url, postData, config).success(function(data, status, headers, config) {  
-			 $scope.cn_keys = data.key_cn; 
-			 $scope.key_dataList = data.key_dataList; 
-		}).error(function(data, status, headers, config) {  
+
+	app.controller('tableController', ['$scope','$http', function($scope,$http) {
+		var data = {name:'angular',password:'333',age:1};
+		$http.post(tableController_url, data).success(function(result) { 
+			 $scope.cn_keys = result.key_cn; 
+			 $scope.key_dataList = result.dataList; 
+		}).error(function(result) {  
 			 alert("an unexpected error ocurred!");
-		});  
-<%-- 		
-		
-		$http.post('<%=request.getContextPath() %>/api/sp_order/spOrderList.do').success(function(data){
-	        $scope.cn_keys = data;
-	    }).error(function(){
-	        alert("an unexpected error ocurred!");
-	    }); --%>
-		
-		/* $scope.items = [
-            {name: "雷柏（Rapoo） V500 机械游戏键盘 机械黄轴", quantity: 1, price: 199.00},
-            {name: "雷柏（Rapoo） V20 光学游戏鼠标 黑色烈焰版", quantity: 1, price: 139.00},
-            {name: "AngularJS权威教程", quantity: 2, price: 84.20}
-        ]; */
+		}); 
 	}]);
-	
+
  	app.controller('query_order', ['$scope', '$http', function($scope, $http) {
+
 		$scope.queryOrders = function(){
-		    alert("query!"); 	
+		    alert($scope.startTimess); 	
 		}
 	}]);
-	
 </script>
 </body>
 </html>

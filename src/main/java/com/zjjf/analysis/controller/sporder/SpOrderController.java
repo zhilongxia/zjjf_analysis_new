@@ -11,17 +11,23 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zjjf.analysis.common.constants.ViewMap;
 import com.zjjf.analysis.controller.BaseController;
+import com.zjjf.analysis.services.orders.SupportOrdersServcie;
 
 @Controller
 @RequestMapping(value = "/api/sp_order")
 public class SpOrderController extends BaseController {
 
+	
+	@Autowired
+	private SupportOrdersServcie supportOrdersServcie;
+	
 	private static Logger logger = LoggerFactory.getLogger(SpOrderController.class);
 
 	@RequestMapping(value = "/loadPage.do")
@@ -40,6 +46,7 @@ public class SpOrderController extends BaseController {
 	@ResponseBody
 	public HashMap<String, Object> querySpOrders(HttpServletRequest request) {
 
+		System.out.println("paramMap:" + request.getParameterMap());
 		List<String[]> dataList = new ArrayList<String[]>();
 		for (int i = 0; i < 6; i++) {
 			dataList.add(ViewMap.orderDataView());
@@ -57,9 +64,9 @@ public class SpOrderController extends BaseController {
 		System.out.println(contentStr);
 		HashMap<String, String[]> paramMap = (HashMap<String, String[]>) request.getParameterMap();
 		logger.info("交易订单传入参数 paramMap:" + paramMap);
-		String[] titles = ViewMap.orderTitleView();
-		resultMap.put("key_cn", titles);
+		resultMap.put("key_cn", supportOrdersServcie.getOrderColumnName());
 		resultMap.put("key_dataList", dataList);
+		resultMap.put("dataList", supportOrdersServcie.getOrderData());
 		return resultMap;
 	}
 }
