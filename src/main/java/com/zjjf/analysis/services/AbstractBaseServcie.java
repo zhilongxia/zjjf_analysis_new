@@ -15,7 +15,6 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.stereotype.Service;
 
-import com.zjjf.analysis.common.constants.ViewMap;
 import com.zjjf.analysis.controller.IView;
 
 @Service
@@ -23,9 +22,8 @@ public abstract class AbstractBaseServcie implements IView{
 	
 	public abstract Object[] sort_by_viewTitle(HashMap<String, Object> t, String [] viewTitle);
 	
-	public String [] getColumnId(){
+	public String [] getColumn(String[][] tableView, Integer key){
 		
-		String[][] tableView = ViewMap.orderMapView();
 		String [] idColumn = new String[tableView.length];
 		for (int i = 0; i < tableView.length; i++) {
 			String[] str = tableView[i];
@@ -33,18 +31,6 @@ public abstract class AbstractBaseServcie implements IView{
 		}
 		return idColumn;
 	}
-	
-	public String [] getColumnName(){
-
-		String[][] tableView = ViewMap.orderMapView();
-		String [] nameColumn = new String[tableView.length];
-		for (int i = 0; i < tableView.length; i++) {
-			String[] str = tableView[i];
-			nameColumn[i] = str[1];
-		}
-		return nameColumn;
-	}
-	
 	
 	public List<Object[]> stand_by_title(List<HashMap<String, Object>> _list, String [] idColumn){
 		

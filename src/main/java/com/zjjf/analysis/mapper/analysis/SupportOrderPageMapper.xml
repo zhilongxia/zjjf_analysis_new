@@ -102,5 +102,72 @@
 	  </where>
 	  limit #{pageNo}, #{offset}
   </select>
+  
+   <select id="getExcelData" resultType="java.util.Map" parameterType="java.util.Map" >
+	  select 
+		  t2.`name` AS "cityName",
+		  t1.`name` AS "areaName",
+		  t4.name as "spGroupName",
+		  t5.name as "storeName",
+		  t.addTime,
+		  DATE_FORMAT(t.addTime, '%Y-%m-%d') AS "addTime",
+		  t.orderNo,
+		  t.chirdOrderNo,
+		  t.quantity,
+		  t.sku,
+		  t.goodsPrice,
+		  t.coupon,
+		  t.rebate,
+		  t.orderPrice,
+		  t.fee,
+		  t.supportmetho,
+		  t.supportStatus,
+		  t.supplierId,
+		  t3.supplierName,
+		  t.status,
+		  t.updateTime,
+		  t.createTime,
+		  t.id
+	from
+	  support_order_page t 
+	  left join `base_region` t1 ON t.`areaId` = t1.`id`
+	  left join `base_region` t2 ON t.cityId = t2.id
+	  left join `base_supplier` t3 ON t3.id = t.`supplierId`
+	  left join `base_spgroup` t4 ON t4.id = t.`spGroupId`
+	  left join `base_store` t5 ON t5.id = t.`storeId`
+	  <where>
+		  <if test="areaId != null and areaId != '' " >
+	      	and t.areaId = #{areaId}
+	      </if>
+	      <if test="cityId != null and cityId != '' " >
+	      	and t.cityId = #{cityId}
+	      </if>
+	      <if test="spGroupId != null and spGroupId != '' " >
+	      	and t.spGroupId = #{spGroupId}
+	      </if>
+	      <if test="supportmetho != null and supportmetho != '' " >
+	      	and t.supportmetho = #{supportmetho}
+	      </if>
+	      <if test="status != null and status != '' " >
+	      	and t.status = #{status}
+	      </if>
+	      <if test="orderNos != null and orderNos != '' " >
+	      	and (t.chirdOrderNo like '%orderNos%' or t.orderNo like '%orderNos%')
+	      </if>
+	      <if test="storeName != null and storeName != '' " >
+	      	and t5.name like '%storeName%'
+	      </if>
+	      <if test="areaId != null and areaId != '' " >
+	      	and t3.supplierName like '%supplierName%'
+	      </if>
+	      <if test="addTimeBegin != null and addTimeBegin != '' " >
+	      	and DATE_FORMAT(t.addTime, '%Y-%m-%d') &gt;= #{addTimeBegin}
+	      </if>
+	      <if test="addTimeEnd != null and addTimeEnd != '' " >
+	      	and DATE_FORMAT(t.addTime, '%Y-%m-%d') &lt;= #{addTimeEnd}
+	      </if>
+	  </where>
+	  limit #{pageNo}, #{offset}
+  </select>
  
 </mapper>

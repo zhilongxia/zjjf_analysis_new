@@ -32,6 +32,7 @@
 		   <span class="add-on"><i class="icon-remove"></i></span>
 		   <span class="add-on"><i class="icon-th"></i></span>
 		</div>
+		<button class="btn btn-primary" ng-click="queryOrders();">Left</button>
         <input type="button" class="input input-search-button ml-default"  id="btnQuery" value="搜索"  ng-click="queryOrders();"/>
         <input type="button" class="input input-search-button ml-default"  id="btnExport" value="导出" ng-click="excelExport();"/>
        </form>
@@ -136,6 +137,7 @@
 		
 		var data = {name:'angular',password:'333',age:1};
 		
+		// load page
 		$http.post(tableController_url, data).success(function(result) { 
 			$scope.cn_keys = result.key_cn;
 			$scope.key_dataList = result.dataList;
@@ -166,6 +168,7 @@
 			});  	
 		}
 		
+		// 导出Excel
 		$scope.excelExport = function(){
 		
 			$http.post(export_url, data).success(function(result) { 

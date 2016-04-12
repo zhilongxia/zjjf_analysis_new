@@ -32,34 +32,32 @@ public class ExcelExportController extends BaseController {
 	 * 
 	 * @param request
 	 * @return
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	@RequestMapping(value = "/portExcel.do")
 	public void portExcel(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-		OutputStream outputStream = response.getOutputStream();  
-		 
+		OutputStream outputStream = response.getOutputStream();
+
 		HashMap<String, Object> paramMap = getQueryMap(request, Arrays.asList("cityId", "areaId", "spGroupId", "supportmetho", "status", "orderNo",
 				"chirdOrderNo", "storeName", "supplierName", "addTimeBegin", "addTimeEnd"));
 		logger.info("交易订单传入参数 paramMap:" + paramMap);
-		 
+
 		String sheetName = "交易订单";
-		
-		paramMap.put("pageNo", 10000);
-		paramMap.put("offset", 10000);
+
 		InputStream inputStream = supportOrdersServcie.exportOrderList(request, response, sheetName, paramMap);
-		
-		//设置文件类型  
+
+		// 设置文件类型
 		response.setContentType("application/vnd.ms-excel; charset=utf-8");
-		response.setHeader("Content-Disposition","attachment;filename=" + sheetName);
+		response.setHeader("Content-Disposition", "attachment;filename=" + sheetName);
 		response.setCharacterEncoding("utf-8");
-          
-        byte[] buffer = new byte[1024];   
-        int bytesRead;  
-        while ((bytesRead = inputStream.read(buffer)) != -1){  
-            outputStream.write(buffer, 0, bytesRead);  
-        }  
-          
-        outputStream.close();
+
+		byte[] buffer = new byte[1024];
+		int bytesRead;
+		while ((bytesRead = inputStream.read(buffer)) != -1) {
+			outputStream.write(buffer, 0, bytesRead);
+		}
+
+		outputStream.close();
 	}
 }

@@ -6,4 +6,6 @@ import java.util.List;
 public interface SupportOrderPageMapper {
 	
 	List<HashMap<String, Object>> getOrderData(HashMap<String, Object> paramMap);
+	
+	List<HashMap<String, Object>> getExcelData(HashMap<String, Object> paramMap);
 }

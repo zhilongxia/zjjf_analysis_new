@@ -1,6 +1,6 @@
 package com.zjjf.analysis.controller;
 
-public interface IView {
+public interface IFilter {
 	
 	/**
 	 * key 0 为id key 1为name

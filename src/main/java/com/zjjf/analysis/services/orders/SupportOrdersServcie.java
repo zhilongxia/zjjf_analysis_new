@@ -10,29 +10,26 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.zjjf.analysis.common.constants.ViewMap;
 import com.zjjf.analysis.mapper.analysis.SupportOrderPageMapper;
 import com.zjjf.analysis.services.AbstractBaseServcie;
 
 @Service
 public class SupportOrdersServcie extends AbstractBaseServcie {
+
+	private final String[][] orderMapView = ViewMap.orderMapView();
 	
 	@Autowired
 	private SupportOrderPageMapper supportOrderPageMapper;
 
-	public List<Object[]> getOrderData(HashMap<String, Object> paramMap) {
+	public String[] getOrderTitle( Integer index) {
 
-		List<HashMap<String, Object>> dataList = supportOrderPageMapper.getOrderData(paramMap);
-		return stand_by_title(dataList, getOrderTitle());
+		return getColumn(orderMapView, 0);
 	}
 
-	public String[] getOrderTitle() {
+	public String[] getOrderColumnName(Integer index) {
 
-		return getColumnId();
-	}
-
-	public String[] getOrderColumnName() {
-
-		return getColumnName();
+		return getColumn(orderMapView, 1);
 	}
 
 	@Override
@@ -54,9 +51,21 @@ public class SupportOrdersServcie extends AbstractBaseServcie {
 	 * @param response
 	 */
 	public InputStream exportOrderList(HttpServletRequest request, HttpServletResponse response, String sheetName, HashMap<String, Object> paramMap) {
-		
-	 	List<Object[]> dataList = getOrderData(paramMap);
-	 	String[] titleColumn = getOrderColumnName();
-	 	return this.createExcel(sheetName, titleColumn, dataList);
+
+		List<Object[]> dataList = getExcelData(paramMap);
+		String[] titleColumn = getColumn(orderMapView, 1);
+		return this.createExcel(sheetName, titleColumn, dataList);
+	}
+	
+	public List<Object[]> getOrderData(HashMap<String, Object> paramMap) {
+
+		List<HashMap<String, Object>> dataList = supportOrderPageMapper.getOrderData(paramMap);
+		return stand_by_title(dataList, getOrderTitle(1));
+	}
+
+	public List<Object[]> getExcelData(HashMap<String, Object> paramMap) {
+
+		List<HashMap<String, Object>> dataList = supportOrderPageMapper.getExcelData(paramMap);
+		return stand_by_title(dataList, getOrderTitle( 1));
 	}
 }
