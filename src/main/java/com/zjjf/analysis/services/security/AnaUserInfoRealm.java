@@ -1,8 +1,5 @@
 package com.zjjf.analysis.services.security;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -12,12 +9,13 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
 public class AnaUserInfoRealm extends AuthorizingRealm {
 
-	// @Autowired
-	// private AuthorityServiceImpl authorityService;
+	@Autowired
+	private AuthorityServiceImpl authorityService;
 
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
@@ -53,27 +51,11 @@ public class AnaUserInfoRealm extends AuthorizingRealm {
 		String currentUsername = (String) super.getAvailablePrincipal(principals);
 		if (!StringUtils.isEmpty(currentUsername)) {
 			SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-			// Set<String> rolesSet = authorityService.getRolesByUserId(userId);
-			Set<String> rolesSet = new HashSet<String>();
-			rolesSet.add("a");
-			authorizationInfo.setRoles(rolesSet);
-			// Set<String> auths = authorityService.getAuthsByUserId(userId);
-			if (null != currentUsername && "test".equals(currentUsername)) {
-				// 添加一个角色,不是配置意义上的添加,而是证明该用户拥有admin角色
-				authorizationInfo.addRole("admin");
-				// 添加权限
-				Set<String> permissionsSet = new HashSet<String>();
-				permissionsSet.add("admin:manage");
-				permissionsSet.add("abc:manage");
-//				authorizationInfo.addStringPermission("admin:manage");
-				authorizationInfo.addStringPermissions(permissionsSet);
-				System.out.println("已为用户[test]赋予了[admin]角色和[admin:manage]权限");
+			if (null != currentUsername) {
+				authorizationInfo.setRoles(authorityService.getRoleSet(currentUsername));
+				authorizationInfo.addStringPermissions(authorityService.getPermissionsSet(currentUsername));
 				return authorizationInfo;
 			}
-			// Set<String> permissionsSet = new HashSet<String>();
-			// permissionsSet.add("B");
-			// authorizationInfo.setStringPermissions(permissionsSet);
-			// return authorizationInfo;
 		}
 		return null;
 	}

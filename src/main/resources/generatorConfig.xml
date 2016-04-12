@@ -12,7 +12,7 @@
 
  	    <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://127.0.0.1:3306/analysis_db" userId="root" password="123456" />
 
-		<javaModelGenerator targetPackage="com.zjjf.analysis.beans.analysis.orders"
+		<javaModelGenerator targetPackage="com.zjjf.analysis.beans.analysis.authority"
 			targetProject="zjjf_analysis_new">
 			<property name="enableSubPackages" value="true" />
 			<property name="trimStrings" value="true" />
@@ -45,7 +45,7 @@
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
  -->
-		<table tableName="support_order_page" domainObjectName="SupportOrderPage"
+		<table tableName="base_role_authority" domainObjectName="BaseRoleAuthority"
 			enableCountByExample="false" enableUpdateByExample="false"
 			enableDeleteByExample="false" enableSelectByExample="false"
 			selectByExampleQueryId="false">

@@ -54,7 +54,7 @@ public class SpOrderController extends BaseController {
 		paramMap.put("offset", offset);
 		logger.info("交易订单传入参数 paramMap:" + paramMap);
 
-		resultMap.put("key_cn", supportOrdersServcie.getOrderColumnName(1));//1为name， 0为key
+		resultMap.put("key_cn", supportOrdersServcie.getOrderTitle());//1为id， 0为key
 		resultMap.put("dataList", supportOrdersServcie.getOrderData(paramMap));
 		return resultMap;
 	}

@@ -4,39 +4,21 @@
 <nav id="nav">
     <a href="${root}/toMainPage.do" target="mainiframe"><h1></h1></a>
     <ul>
-       <%--  <li>
-            <div class="category active"><a href="${root}/scms/orderctl/test.do" target="mainiframe"><i class="icon icon-home"></i>我的工作台</a></div>
-        </li>
-        <li>
-            <div class="category" data-direction="down"><i class="icon icon-order"></i>供货单管理<i class="icon-direction"></i></div>
-            <div class="subcategory">
-                <a href="${root}/scms/orderctl/GetSpOrderInfos.do?status=2" target="mainiframe">转角订单</a>
-                <a href="${root}/scms/orderctl/listPage.do?staging=0" target="mainiframe">线下订单</a>
-            </div>
-        </li>
-        <li>
-            <div class="category" data-direction="down"><i class="icon icon-goods"></i>商品库管理<i class="icon-direction"></i></div>
-            <div class="subcategory">
-                <a href="${root}/scms/plantItem/toProductIndex.do" target="mainiframe">商品管理</a>
-                <a href="${root}/scms/plantItem/plantItemPage.do" target="mainiframe">商品库存</a>
-            </div>
-        </li>
-        <li>
-            <div class="category"><a href="${root}/scms/store/scmshome.do" target="mainiframe"><i class="icon icon-custom"></i>客户管理</a></div>
-        </li>
-        <li>
-            <div class="category"><a href="${root}/scms/sp/toSpWalletIndex.do" target="mainiframe"><i class="icon icon-wallet"></i>我的钱包</a></div>
-        </li>
-        --%>
-         
+        <c:forEach var="item" items="${menuTree}" varStatus="status">   
+        	<shiro:hasAnyRoles name="${item.authString}">
+	     		<li>
+		            <div class="category"><a href="${root}${item.menuUrl}" target="mainiframe"><i class="icon icon-wallet"></i>${item.menuName }</a></div>
+		        </li>
+	        </shiro:hasAnyRoles>
+		</c:forEach>  
         <li>
             <div class="category"><a href="${root}/gateway/graph_char.do" target="mainiframe"><i class="icon icon-wallet"></i>全局统计数据分析</a></div>
         </li>
-        <shiro:hasAnyRoles name="admin,abc">
+<%--         <shiro:hasAnyRoles name="admin,abc">
    	    	<li>
 	            <div class="category"><a href="${root}/api/sp_order/loadPage.do" target="mainiframe"><i class="icon icon-wallet"></i>交易订单数据分析</a></div>
 	        </li>
-		</shiro:hasAnyRoles>
+		</shiro:hasAnyRoles> --%>
         <li>
             <div class="category"><a href="${root}/analysis/statis/toStatisPage.do" target="mainiframe"><i class="icon icon-wallet"></i>全局统计</a></div>
         </li>

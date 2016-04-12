@@ -22,14 +22,14 @@ public class SupportOrdersServcie extends AbstractBaseServcie {
 	@Autowired
 	private SupportOrderPageMapper supportOrderPageMapper;
 
-	public String[] getOrderTitle( Integer index) {
-
-		return getColumn(orderMapView, 0);
-	}
-
-	public String[] getOrderColumnName(Integer index) {
+	public String[] getOrderTitle() {
 
 		return getColumn(orderMapView, 1);
+	}
+
+	public String[] getOrderColumnName() {
+
+		return getColumn(orderMapView, 0);
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class SupportOrdersServcie extends AbstractBaseServcie {
 		}
 		return row;
 	}
-
+	
 	/**
 	 * 导出文件
 	 * 
@@ -60,12 +60,12 @@ public class SupportOrdersServcie extends AbstractBaseServcie {
 	public List<Object[]> getOrderData(HashMap<String, Object> paramMap) {
 
 		List<HashMap<String, Object>> dataList = supportOrderPageMapper.getOrderData(paramMap);
-		return stand_by_title(dataList, getOrderTitle(1));
+		return stand_by_title(dataList, getOrderColumnName());
 	}
 
 	public List<Object[]> getExcelData(HashMap<String, Object> paramMap) {
 
 		List<HashMap<String, Object>> dataList = supportOrderPageMapper.getExcelData(paramMap);
-		return stand_by_title(dataList, getOrderTitle( 1));
+		return stand_by_title(dataList, getOrderColumnName());
 	}
 }

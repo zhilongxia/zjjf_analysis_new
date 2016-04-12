@@ -2,6 +2,7 @@ package com.zjjf.analysis.controller.login;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -43,6 +44,7 @@ public class LoginController extends BaseController {
 		return LoginConstant.login_url;
 	}
 
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/scmsMainPage.do")
 	public String index(HttpServletRequest request, Model model) {
 
@@ -51,12 +53,14 @@ public class LoginController extends BaseController {
 			HashMap<String, Object> loginMap = new HashMap<String, Object>();
 
 			UserInfos user = (UserInfos) subject.getSession().getAttribute(SessionConfig.user_session_key);
+			List<HashMap<String, Object>> menuTree =  (List<HashMap<String, Object>>) subject.getSession().getAttribute("menuTree");
 			if (user == null) {
 				return LoginConstant.login_url;
 			} else {
 				loginMap.put("userId", user.getId());
 				loginMap.put("userName", user.getUserName());
 				model.addAttribute("logInVo", loginMap);
+				model.addAttribute("menuTree", menuTree);
 				return LoginConstant.main_url;
 			}
 		} else {
@@ -67,7 +71,7 @@ public class LoginController extends BaseController {
 	@RequestMapping(value = "/userLoginIn.do")
 	@ResponseBody
 	public Object userLoginIn(LoginVo loginRo, HttpSession session, HttpServletRequest request, Model model) {
-		
+
 		// 参数校验
 		if (loginRo == null || StringUtils.isEmpty(loginRo.getUserName()) || StringUtils.isEmpty(loginRo.getPassword())) {
 			return ResponseUtils.sendMsg(false, "请输入用户名密码后登陆！");

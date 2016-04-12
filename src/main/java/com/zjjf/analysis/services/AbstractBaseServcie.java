@@ -27,7 +27,7 @@ public abstract class AbstractBaseServcie implements IView{
 		String [] idColumn = new String[tableView.length];
 		for (int i = 0; i < tableView.length; i++) {
 			String[] str = tableView[i];
-			idColumn[i] = str[0];
+			idColumn[i] = str[key];
 		}
 		return idColumn;
 	}
