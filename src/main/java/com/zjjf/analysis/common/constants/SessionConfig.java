@@ -17,4 +17,12 @@ public class SessionConfig {
 	public final static String user_supplier = "user_supplier";
 	
 	public final static String user_authentication = "user_authentication";
+	
+	public final static String menuTree = "menuTree";
+	
+	public final static String authorityDataKey = "authorityDataKey";
+	
+	public final static String filterKeys = "filterKeys";
+	
+	public final static String filterAuthorityData = "filterAuthorityData";
 }

@@ -95,7 +95,7 @@ public class BaseRole {
         this.ordId = ordId;
     }
 
-    public String getIsDelete() {
+	public String getIsDelete() {
         return isDelete;
     }
 

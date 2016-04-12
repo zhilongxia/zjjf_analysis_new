@@ -53,11 +53,41 @@
 		  t.rebate,
 		  t.orderPrice,
 		  t.fee,
-		  t.supportmetho,
-		  t.supportStatus,
+		  case
+		    when t.`status` = 1
+		    then '快钱支付'
+		    when t.`status` = 2
+		    then '货到付款'
+		    when t.`status` = 3
+		    then '支付宝支付'
+		    when t.`status` = 4
+		    then '微信支付'
+		    else '' 
+		  end as "supportmetho",
+		  case
+		    when t.`status` = 0
+		    then '未支付'
+		    when t.`status` = 2
+		    then '已支付'
+		    else '' 
+		  end as "supportStatus",
 		  t.supplierId,
 		  t3.supplierName,
-		  t.status,
+		   case
+		    when t.`status` = 1
+		    then '已下单'
+		    when t.`status` = 2
+		    then '已派单'
+		    when t.`status` = 3
+		    then '已提单'
+		    when t.`status` = 4
+		    then '已打印'
+		    when t.`status` = 5
+		    then '已送达'
+		    when t.`status` = 6
+		    then '已取消' 
+		    else '' 
+		  end as "status",
 		  t.updateTime,
 		  t.createTime,
 		  t.id
@@ -167,7 +197,7 @@
 	      	and DATE_FORMAT(t.addTime, '%Y-%m-%d') &lt;= #{addTimeEnd}
 	      </if>
 	  </where>
-	  limit #{pageNo}, #{offset}
+	  limit 65530
   </select>
  
 </mapper>

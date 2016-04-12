@@ -28,17 +28,6 @@ public class AnaUserInfoRealm extends AuthorizingRealm {
 			if (StringUtils.isEmpty(credential)) {
 				return null;
 			}
-			// CustomerService user = null;
-			// try {
-			// user =
-			// authorityService.getUserByCustomerServiceCredential(credential);
-			// logger.info("根据手机号获取当前用户：id：{},密码：{}，手机号：{}，用户名：{}",
-			// user.getId(), user.getPassword());
-			// } catch (Exception e) {
-			// return null;
-			// }finally{
-			// if(user == null) throw new UnknownAccountException();
-			// }
 			SimpleAuthenticationInfo sauth = new SimpleAuthenticationInfo("test", "111111", "测试账号");
 			return sauth;
 		}
