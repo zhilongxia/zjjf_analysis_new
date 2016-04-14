@@ -35,7 +35,7 @@ public class ExcelExportController extends BaseController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/portExcel.do")
-	public void portExcel(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public String portExcel(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		OutputStream outputStream = response.getOutputStream();
 
@@ -59,5 +59,6 @@ public class ExcelExportController extends BaseController {
 		}
 
 		outputStream.close();
+		return null;
 	}
 }
