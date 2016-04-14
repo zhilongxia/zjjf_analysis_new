@@ -154,4 +154,8 @@
   <select id="getRegionCodeList" resultType="com.zjjf.analysis.beans.analysis.base.AnaDictionary" parameterType="java.util.Map">
     select id as "code", name from base_region where regionLevel = #{regionLevel} and pid = #{pid}
   </select>
+  
+  <select id="getAreaByCityId" resultType="com.zjjf.analysis.beans.analysis.base.AnaDictionary" parameterType="java.util.Map">
+    select id as "code", name from base_region where regionLevel = #{regionLevel} and pid = #{cityId}
+  </select>
 </mapper>

@@ -16,7 +16,7 @@
 	</div>
 	<div class="op-section"> 
 	
-	    <select class="select"  ng-model="selectCity" ng-options="v.code as v.name for v in citySelect">
+	    <select class="select"  ng-model="selectCity" ng-options="v.code as v.name for v in citySelect" ng-change="changeCity()">
 		    <option value="">全部城市</option>
 		</select>
         <select class="select" ng-model="selectArea" ng-options="v.code as v.name for v in areaSelect">
@@ -74,6 +74,8 @@
 	    
 	    var tableController_url = root + '/api/sp_order/spOrderList.do';
 	    var export_url = root + '/report/excelExport/portExcel.do';
+	    var changeCity_url = root + '/api/base_core/getAreaByCityId.do';
+	    
 	    var app = angular.module('orderTable', []); // 第二个参数定义了Module依赖 
 	    app.config(function($httpProvider) {
 	        $httpProvider.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded';
@@ -161,6 +163,17 @@
 	    	
 	    		$http.post(export_url, data).success(function(result) { 
 	    			
+	    		}).error(function(result) {  
+	    			 alert("an unexpected error ocurred!");
+	    		});  	
+	    	}
+	    	
+	    	// 根据城市获取区域
+	    	$scope.changeCity = function(){
+	    	
+	    		var data = {"cityId" : $scope.selectCity || null};
+	    		$http.post(changeCity_url, data).success(function(result) { 
+	    			$scope.areaSelect = result;
 	    		}).error(function(result) {  
 	    			 alert("an unexpected error ocurred!");
 	    		});  	

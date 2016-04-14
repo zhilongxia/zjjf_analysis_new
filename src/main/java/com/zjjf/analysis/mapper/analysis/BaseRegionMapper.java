@@ -21,4 +21,7 @@ public interface BaseRegionMapper {
     
     //获取城市列表代码
     List<AnaDictionary> getRegionCodeList(HashMap<String, Object> cityMap);
+    
+    //获取城市列表代码
+    List<AnaDictionary> getAreaByCityId(HashMap<String, Object> cityMap);
 }

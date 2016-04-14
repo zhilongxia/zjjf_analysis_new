@@ -1,5 +1,6 @@
 eclipse.preferences.version=1
 encoding//src/main/java=utf8
+encoding//src/main/java/com/zjjf/analysis/controller/basecore/BaseCoreController.java=GBK
 encoding//src/main/java/com/zjjf/analysis/controller/sporder/SpOrderController.java=GBK
 encoding//src/main/resources/generatorConfig.xml=UTF-8
 encoding//src/main/webapp/WEB-INF/view/analysis/sporder/sp_order.jsp=UTF-8

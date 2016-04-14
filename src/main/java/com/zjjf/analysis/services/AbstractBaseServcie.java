@@ -26,7 +26,7 @@ import com.zjjf.analysis.mapper.analysis.BaseSpGroupMapper;
 public abstract class AbstractBaseServcie implements IView{
 	
 	@Autowired
-	private BaseRegionMapper baseRegionMapper;
+	protected BaseRegionMapper baseRegionMapper;
 	
 	@Autowired
 	private  BaseSpGroupMapper baseSpGroupMapper;

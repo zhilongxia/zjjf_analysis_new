@@ -1,0 +1,32 @@
+package com.zjjf.analysis.services.core;
+
+import java.util.HashMap;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.zjjf.analysis.beans.analysis.base.AnaDictionary;
+import com.zjjf.analysis.services.AbstractBaseServcie;
+
+@Service
+public class BaseCoreServcie extends AbstractBaseServcie {
+
+	/**
+	 * 获取Region字典
+	 * 
+	 * @return
+	 */
+	public List<AnaDictionary> getAreaByCityId(String cityId) {
+
+		HashMap<String, Object> cityMap = new HashMap<String, Object>();
+		cityMap.put("cityId", cityId);
+		cityMap.put("regionLevel", 4);
+		return super.baseRegionMapper.getAreaByCityId(cityMap);
+	}
+
+	@Override
+	public Object[] sort_by_viewTitle(HashMap<String, Object> t, String[] viewTitle) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}
