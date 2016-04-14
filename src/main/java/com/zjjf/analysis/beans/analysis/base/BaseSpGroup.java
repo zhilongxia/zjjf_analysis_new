@@ -1,6 +1,8 @@
-package com.zjjf.analysis.beans.analysis;
+package com.zjjf.analysis.beans.analysis.base;
 
-public class SpGroup {
+import java.util.Date;
+
+public class BaseSpGroup {
     private Integer id;
 
     private String name;
@@ -16,6 +18,10 @@ public class SpGroup {
     private Byte status;
 
     private Boolean isDelete;
+
+    private Date updateTimeStamp;
+
+    private Integer createTime;
 
     public Integer getId() {
         return id;
@@ -79,5 +85,21 @@ public class SpGroup {
 
     public void setIsDelete(Boolean isDelete) {
         this.isDelete = isDelete;
+    }
+
+    public Date getUpdateTimeStamp() {
+        return updateTimeStamp;
+    }
+
+    public void setUpdateTimeStamp(Date updateTimeStamp) {
+        this.updateTimeStamp = updateTimeStamp;
+    }
+
+    public Integer getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Integer createTime) {
+        this.createTime = createTime;
     }
 }

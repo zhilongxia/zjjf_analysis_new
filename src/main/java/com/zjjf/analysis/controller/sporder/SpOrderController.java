@@ -53,13 +53,14 @@ public class SpOrderController extends BaseController {
 		String currentPage = request.getParameter("currentPage") == null ? "1" : request.getParameter("currentPage");
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 
-		HashMap<String, Object> paramMap = getQueryMap(request, Arrays.asList("cityId", "areaId", "spGroupId", "supportmetho", "status", "orderNo",
-				"chirdOrderNo", "storeName", "supplierName", "addTimeBegin", "addTimeEnd"));
+		HashMap<String, Object> paramMap = getQueryMap(request, Arrays.asList("cityId", "areaId", "spGroupId", "supportmetho", "status", "orderNos",
+				"storeName", "supplierName", "addTimeBegin", "addTimeEnd"));
 
 		paramMap.put("pageNo", Integer.valueOf(currentPage) * limit);
 		paramMap.put("offset", offset);
 		logger.info("交易订单传入参数 paramMap:" + paramMap);
 	
+		resultMap.put("optionList", supportOrdersServcie.getOptionList());
 		resultMap.put("key_cn", supportOrdersServcie.getOrderTitle());//1为id， 0为key
 		resultMap.put("dataList", supportOrdersServcie.getOrderData(paramMap));
 		return resultMap;

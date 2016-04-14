@@ -58,10 +58,17 @@ app.config(function($httpProvider) {
 
 app.controller('tableController', ['$scope','$http', function($scope, $http) {
 	
-	var data = {name:'angular',password:'333',age:1};
-	
+	var data = {};
 	// load page
 	$http.post(tableController_url, data).success(function(result) { 
+		// option 
+		$scope.citySelect = result.optionList[0];
+		$scope.areaSelect = result.optionList[1];
+		$scope.spGroupIdSelect = result.optionList[2];
+		$scope.supportmethoSelect = result.optionList[3];
+		$scope.supportStatusSelect = result.optionList[4];
+		$scope.statusSelect = result.optionList[5];
+		// table
 		$scope.cn_keys = result.key_cn;
 		$scope.key_dataList = result.dataList;
 	}).error(function(result) {  
@@ -70,7 +77,7 @@ app.controller('tableController', ['$scope','$http', function($scope, $http) {
 	
 	// 下一页
 	$scope.nextPage = function(nextPage){
-		alert($scope.startTimess);
+
 		var data = {"nextPage":nextPage};
 		$http.post(tableController_url, data).success(function(result) { 
 			$scope.cn_keys = result.key_cn; 
@@ -82,7 +89,8 @@ app.controller('tableController', ['$scope','$http', function($scope, $http) {
 	
 	// 查询订单列表
 	$scope.queryOrders = function(){
-		var data = {"nextPage":3};
+		
+		var data = {};
 		$http.post(tableController_url, data).success(function(result) { 
 			$scope.cn_keys = result.key_cn; 
 			$scope.key_dataList = result.dataList; 

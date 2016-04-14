@@ -13,12 +13,22 @@ import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.zjjf.analysis.beans.vo.DictionaryVo;
 import com.zjjf.analysis.controller.IView;
+import com.zjjf.analysis.mapper.analysis.BaseRegionMapper;
+import com.zjjf.analysis.mapper.analysis.BaseSpGroupMapper;
 
 @Service
 public abstract class AbstractBaseServcie implements IView{
+	
+	@Autowired
+	private BaseRegionMapper baseRegionMapper;
+	
+	@Autowired
+	private  BaseSpGroupMapper baseSpGroupMapper;
 	
 	public abstract Object[] sort_by_viewTitle(HashMap<String, Object> t, String [] viewTitle);
 	
@@ -92,4 +102,24 @@ public abstract class AbstractBaseServcie implements IView{
         InputStream is = new ByteArrayInputStream(content);  
         return is; 
     }  
+	
+	/**
+	 * 获取Region字典
+	 * 
+	 * @return
+	 */
+	public List<DictionaryVo> getRegionCodeList(HashMap<String, Object> cityMap) {
+		
+		return baseRegionMapper.getRegionCodeList(cityMap);
+	}
+	
+	/**
+	 * 获取定格字典
+	 * 
+	 * @return
+	 */
+	public List<DictionaryVo> getSpGroupCodeList(HashMap<String, Object> cityMap) {
+		
+		return baseSpGroupMapper.getSpGroupCodeList(cityMap);
+	}
 }

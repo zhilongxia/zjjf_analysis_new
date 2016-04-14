@@ -14,37 +14,23 @@
 	    <a href="" class="crumb">订单数据分析</a>
 	    <a href="" class="crumb crumb-active">订单明细报表</a>
 	</div>
-	<div class="op-section">
-	    <select class="select">
-	        <option value="">全部城市</option>
-	    </select>
-	    <select class="select">
-	        <option value="">全部区域</option>
-	    </select>
-	    <select class="select">
-	        <option value="">全部定格</option>
-	    </select>
-	    <select class="select">
-	        <option value="">全部支付方式</option>
-	    </select>
-	    <select class="select">
-	        <option value="">全部支付状态</option>
-	    </select>
-	    <select class="select">
-	        <option value="">全部配送状态</option>
-	    </select>
+	<div class="op-section"> 
+        <select class="select" ng-model="citySelect" ng-options="v.code as v.name for v in citySelect"></select> 
+        <select class="select" ng-model="areaSelect" ng-options="v.code as v.name for v in areaSelect"></select> 
+        <select class="select" ng-model="spGroupIdSelect" ng-options="v.code as v.name for v in spGroupIdSelect"></select> 
+        <select class="select" ng-model="supportmethoSelect" ng-options="v.code as v.name for v in supportmethoSelect"></select> 
+        <select class="select" ng-model="supportStatusSelect" ng-options="v.code as v.name for v in supportStatusSelect"></select> 
+        <select class="select" ng-model="statusSelect" ng-options="v.code as v.name for v in statusSelect"></select> 
 	</div>
 	<div class="op-section">
-	    <input type="text" placeholder="订单号/子订单号" class="input input-search-text">
-	    <input type="text" placeholder="便利店名称" class="input input-search-text">
-	    <input type="text" placeholder="配送商" class="input input-search-text">
+	    <input type="text" placeholder="订单号/子订单号" class="input input-search-text" ng-model="orderNos">
+	    <input type="text" placeholder="便利店名称" class="input input-search-text" ng-model="storeName">
+	    <input type="text" placeholder="配送商" class="input input-search-text" ng-model="supplierName">
 	</div>
 	<div class="op-section clearfix">
 	    <div class="fl">
-	        下单时间
-	        <input type="text" class="input input-date J_timeS"> 至
-	        <input type="text" class="input input-date J_timeE">
-	
+	      	  下单时间
+	        <input type="text" class="input input-date J_timeS" ng-model="addTimeBegin"> 至  <input type="text" class="input input-date J_timeE" ng-model="addTimeEnd">
 	        <span class="pills pills-active ml-default">昨天</span>
 	        <span class="pills">最近7天</span>
 	        <span class="pills">最近30天</span>
@@ -57,23 +43,15 @@
 	<div>
 	    <table class="table-list">
 	        <thead class="table-thead">
-	 	        <tr>
-		            <th colspan="4">订单归属信息</th>
-		            <th colspan="5">订单基本信息</th>
-		            <th colspan="5">订单金额信息</th>
-		            <th colspan="4">订单状态信息</th>
-		        </tr>
-		        <tr>
-		        	<td ng-repeat="a in cn_keys">{{a}}</td>
-		        </tr>
+	 	        <tr><th colspan="4">订单归属信息</th><th colspan="5">订单基本信息</th><th colspan="5">订单金额信息</th><th colspan="4">订单状态信息</th></tr>
+		        <tr><td ng-repeat="a in cn_keys">{{a}}</td> </tr>
 	        </thead>
 	        <tbody class="table-tbody">
-	       		<tr ng-repeat="d_row in key_dataList"> 
-	                <td ng-repeat="b in d_row track by $index">{{b}}</td>
-	            </tr>
+	       		<tr ng-repeat="d_row in key_dataList"><td ng-repeat="b in d_row track by $index">{{b}}</td></tr>
 	        </tbody>
 	    </table>
 	</div>
+	<%@ include file="../../common/pagination.jsp"%>
 	<script>
 	    var root = '<%=request.getContextPath() %>';
 	</script>
