@@ -53,7 +53,7 @@ public class SpOrderController extends BaseController {
 		String currentPage = request.getParameter("currentPage") == null ? "1" : request.getParameter("currentPage");
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 
-		HashMap<String, Object> paramMap = getQueryMap(request, Arrays.asList("cityId", "areaId", "spGroupId", "supportmetho", "status", "orderNos",
+		HashMap<String, Object> paramMap = getQueryMap(request, Arrays.asList("cityId", "areaId", "spGroupId", "supportmetho", "supportStatus", "status", "orderNos",
 				"storeName", "supplierName", "addTimeBegin", "addTimeEnd"));
 
 		paramMap.put("pageNo", Integer.valueOf(currentPage) * limit);

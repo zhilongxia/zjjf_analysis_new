@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.zjjf.analysis.beans.vo.DictionaryVo;
+import com.zjjf.analysis.beans.analysis.base.AnaDictionary;
 import com.zjjf.analysis.common.constants.ViewMap;
 import com.zjjf.analysis.mapper.analysis.SupportOrderPageMapper;
 import com.zjjf.analysis.services.AbstractBaseServcie;
@@ -71,22 +71,27 @@ public class SupportOrdersServcie extends AbstractBaseServcie {
 		return stand_by_title(dataList, getOrderColumnName());
 	}
 
-	public List<List<DictionaryVo>> getOptionList() {
+	public List<List<AnaDictionary>> getOptionList() {
 
-		List<List<DictionaryVo>> optionList = new ArrayList<List<DictionaryVo>>();
+		List<List<AnaDictionary>> optionList = new ArrayList<List<AnaDictionary>>();
 
 		HashMap<String, Object> cityMap = new HashMap<String, Object>();
 		cityMap.put("regionLevel", 3);
 		cityMap.put("pid", 6);
 		optionList.add(0, getRegionCodeList(cityMap));
+		
 		HashMap<String, Object> areaMap = new HashMap<String, Object>();
 		areaMap.put("regionLevel", 4);
 		areaMap.put("pid", 77);
 		optionList.add(1, getRegionCodeList(areaMap));
+		
 		HashMap<String, Object> spGroupMap = new HashMap<String, Object>();
-		spGroupMap.put("regionLevel", 4);
-		spGroupMap.put("pid", 77);
 		optionList.add(2, getSpGroupCodeList(spGroupMap));
+		
+		optionList.add(3, getByDictId("sp_order_supportmetho"));
+		optionList.add(4, getByDictId("sp_order_supportStatus"));
+		optionList.add(5, getByDictId("sp_order_status"));
+
 		return optionList;
 	}
 }

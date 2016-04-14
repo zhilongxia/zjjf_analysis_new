@@ -151,7 +151,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   
-  <select id="getRegionCodeList" resultType="com.zjjf.analysis.beans.vo.DictionaryVo" parameterType="java.util.Map">
-    select id as "code", name, id as orderBy from base_region where regionLevel = #{regionLevel} and pid = #{pid}
+  <select id="getRegionCodeList" resultType="com.zjjf.analysis.beans.analysis.base.AnaDictionary" parameterType="java.util.Map">
+    select id as "code", name from base_region where regionLevel = #{regionLevel} and pid = #{pid}
   </select>
 </mapper>

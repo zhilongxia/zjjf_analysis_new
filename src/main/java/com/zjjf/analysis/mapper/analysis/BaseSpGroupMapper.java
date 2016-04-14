@@ -3,8 +3,8 @@ package com.zjjf.analysis.mapper.analysis;
 import java.util.HashMap;
 import java.util.List;
 
+import com.zjjf.analysis.beans.analysis.base.AnaDictionary;
 import com.zjjf.analysis.beans.analysis.base.BaseSpGroup;
-import com.zjjf.analysis.beans.vo.DictionaryVo;
 
 public interface BaseSpGroupMapper {
     int deleteByPrimaryKey(Integer id);
@@ -19,5 +19,5 @@ public interface BaseSpGroupMapper {
 
     int updateByPrimaryKey(BaseSpGroup record);
     
-    List<DictionaryVo> getSpGroupCodeList(HashMap<String, Object> cityMap);
+    List<AnaDictionary> getSpGroupCodeList(HashMap<String, Object> cityMap);
 }

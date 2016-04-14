@@ -15,12 +15,25 @@
 	    <a href="" class="crumb crumb-active">订单明细报表</a>
 	</div>
 	<div class="op-section"> 
-        <select class="select" ng-model="citySelect" ng-options="v.code as v.name for v in citySelect"></select> 
-        <select class="select" ng-model="areaSelect" ng-options="v.code as v.name for v in areaSelect"></select> 
-        <select class="select" ng-model="spGroupIdSelect" ng-options="v.code as v.name for v in spGroupIdSelect"></select> 
-        <select class="select" ng-model="supportmethoSelect" ng-options="v.code as v.name for v in supportmethoSelect"></select> 
-        <select class="select" ng-model="supportStatusSelect" ng-options="v.code as v.name for v in supportStatusSelect"></select> 
-        <select class="select" ng-model="statusSelect" ng-options="v.code as v.name for v in statusSelect"></select> 
+	
+	    <select class="select"  ng-model="selectCity" ng-options="v.code as v.name for v in citySelect">
+		    <option value="">全部城市</option>
+		</select>
+        <select class="select" ng-model="selectArea" ng-options="v.code as v.name for v in areaSelect">
+        	<option value="">全部区域</option>
+		</select>
+        <select class="select" ng-model="selectSpGroupId" ng-options="v.code as v.name for v in spGroupIdSelect">
+        	<option value="">全部定格</option>
+		</select>
+        <select class="select" ng-model="selectSupportmetho" ng-options="v.code as v.name for v in supportmethoSelect">
+        	<option value="">全部支付方式</option>
+		</select>
+        <select class="select" ng-model="selectsupportStatus" ng-options="v.code as v.name for v in supportStatusSelect">
+        	<option value="">全部支付状态</option>
+		</select>
+        <select class="select" ng-model="selectStatus" ng-options="v.code as v.name for v in statusSelect">
+        	<option value="">全部配送状态</option>
+		</select>
 	</div>
 	<div class="op-section">
 	    <input type="text" placeholder="订单号/子订单号" class="input input-search-text" ng-model="orderNos">
@@ -54,7 +67,124 @@
 	<%@ include file="../../common/pagination.jsp"%>
 	<script>
 	    var root = '<%=request.getContextPath() %>';
+	    
+	    $(function() {
+	        dateRangeSimple('.J_timeS', '.J_timeE');
+	    });
+	    
+	    var tableController_url = root + '/api/sp_order/spOrderList.do';
+	    var export_url = root + '/report/excelExport/portExcel.do';
+	    var app = angular.module('orderTable', []); // 第二个参数定义了Module依赖 
+	    app.config(function($httpProvider) {
+	        $httpProvider.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded';
+	        $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+	        $httpProvider.defaults.transformRequest = [function(data) {
+	            var param = function(obj) {
+	                var query = '';
+	                var name, value, fullSubName, subName, subValue, innerObj, i;
+	                for (name in obj) {
+	                    value = obj[name];
+	                    if (value instanceof Array) {
+	                        for (i = 0; i < value.length; ++i) {
+	                            subValue = value[i];
+	                            fullSubName = name + '[' + i + ']';
+	                            innerObj = {};
+	                            innerObj[fullSubName] = subValue;
+	                            query += param(innerObj) + '&';
+	                        }
+	                    } else if (value instanceof Object) {
+	                        for (subName in value) {
+	                            subValue = value[subName];
+	                            fullSubName = name + '[' + subName + ']';
+	                            innerObj = {};
+	                            innerObj[fullSubName] = subValue;
+	                            query += param(innerObj) + '&';
+	                        }
+	                    } else if (value !== undefined && value !== null) {
+	                        query += encodeURIComponent(name) + '='
+	                                + encodeURIComponent(value) + '&';
+	                    }
+	                }
+	                return query.length ? query.substr(0, query.length - 1) : query;
+	            };
+	            return angular.isObject(data) && String(data) !== '[object File]'
+	                    ? param(data)
+	                    : data;
+	        }];
+	    });
+
+	    app.controller('tableController', ['$scope','$http', function($scope, $http) {
+	    	
+	    	var data = {};
+	    	// load page
+	    	$http.post(tableController_url, data).success(function(result) { 
+	    		// option 
+	    		$scope.citySelect = result.optionList[0];
+	    		$scope.areaSelect = result.optionList[1];
+	    		$scope.spGroupIdSelect = result.optionList[2];
+	    		$scope.supportmethoSelect = result.optionList[3];
+	    		$scope.supportStatusSelect = result.optionList[4];
+	    		$scope.statusSelect = result.optionList[5];
+	    		// table
+	    		$scope.cn_keys = result.key_cn;
+	    		$scope.key_dataList = result.dataList;
+	    	}).error(function(result) {  
+	    		 alert("an unexpected error ocurred!");
+	    	}); 
+	    	
+	    	// 下一页
+	    	$scope.nextPage = function(nextPage){
+
+	    		var data = {"nextPage":nextPage};
+	    		$http.post(tableController_url, data).success(function(result) { 
+	    			$scope.cn_keys = result.key_cn; 
+	    			$scope.key_dataList = result.dataList; 
+	    		}).error(function(result) {  
+	    			 alert("an unexpected error ocurred!");
+	    		}); 
+	    	}
+	    	
+	    	// 查询订单列表
+	    	$scope.queryOrders = function(){
+	    		
+	    		var data = getParam();
+	    		$http.post(tableController_url, data).success(function(result) { 
+	    			$scope.cn_keys = result.key_cn; 
+	    			$scope.key_dataList = result.dataList; 
+	    		}).error(function(result) {  
+	    			 alert("an unexpected error ocurred!");
+	    		});  	
+	    	}
+	    	
+	    	// 导出Excel
+	    	$scope.excelExport = function(){
+	    	
+	    		$http.post(export_url, data).success(function(result) { 
+	    			
+	    		}).error(function(result) {  
+	    			 alert("an unexpected error ocurred!");
+	    		});  	
+	    	}
+	    	
+	    	// 获取参数
+	    	getParam = function() {
+
+	    		var paramMap = {};
+	    		paramMap["cityId"] = $scope.selectCity || null;
+	    		paramMap["areaId"] = $scope.selectArea || null;
+	    		paramMap["spGroupId"] = $scope.selectSpGroupId || null;
+	    		paramMap["supportmetho"] = $scope.selectSupportmetho || null;
+	    		paramMap["supportStatus"] = $scope.selectsupportStatus || null;
+	    		paramMap["status"] = $scope.selectStatus || null;
+	    		
+	    		paramMap["orderNos"] = $scope.orderNos || null;
+	    		paramMap["storeName"] = $scope.storeName || null;
+	    		paramMap["supplierName"] = $scope.supplierName || null;
+	    		paramMap["addTimeBegin"] = $scope.addTimeBegin || null;
+	    		paramMap["addTimeEnd"] = $scope.addTimeEnd || null;
+	    		return paramMap;
+	    	}
+	    }]);
 	</script>
-	<script src="<%=request.getContextPath() %>/resources/view/sporder/sp_order.js"></script>
 </body>
 </html>

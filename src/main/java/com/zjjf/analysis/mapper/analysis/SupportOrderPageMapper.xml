@@ -178,6 +178,9 @@
 	      <if test="supportmetho != null and supportmetho != '' " >
 	      	and t.supportmetho = #{supportmetho}
 	      </if>
+	      <if test="supportStatus != null and supportStatus != '' " >
+	      	and t.supportStatus = #{supportStatus}
+	      </if>
 	      <if test="status != null and status != '' " >
 	      	and t.status = #{status}
 	      </if>
