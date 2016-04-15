@@ -23,8 +23,6 @@ public class SpOrderController extends BaseController {
 
 	private final Integer limit = 5;
 
-	private final Integer offset = 5;
-
 	@Autowired
 	private SupportOrdersServcie supportOrdersServcie;
 
@@ -51,18 +49,21 @@ public class SpOrderController extends BaseController {
 		String filterKeys = anthorityData.get(SessionConfig.filterKeys) + "";
 		
 		String currentPage = request.getParameter("currentPage") == null ? "1" : request.getParameter("currentPage");
+		String itemsPerPage = request.getParameter("itemsPerPage") == null ? "5" : request.getParameter("itemsPerPage");
+		
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 
 		HashMap<String, Object> paramMap = getQueryMap(request, Arrays.asList("cityId", "areaId", "spGroupId", "supportmetho", "supportStatus", "status", "orderNos",
 				"storeName", "supplierName", "addTimeBegin", "addTimeEnd"));
 
 		paramMap.put("pageNo", Integer.valueOf(currentPage) * limit);
-		paramMap.put("offset", offset);
+		paramMap.put("offset", Integer.valueOf(itemsPerPage));
 		logger.info("交易订单传入参数 paramMap:" + paramMap);
 	
 		resultMap.put("optionList", supportOrdersServcie.getOptionList());
 		resultMap.put("key_cn", supportOrdersServcie.getOrderTitle());//1为id， 0为key
 		resultMap.put("dataList", supportOrdersServcie.getOrderData(paramMap));
+		resultMap.put("totalCount", supportOrdersServcie.getTotalCount(paramMap));
 		return resultMap;
 	}
 }

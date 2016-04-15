@@ -64,6 +64,11 @@ public class SupportOrdersServcie extends AbstractBaseServcie {
 		List<HashMap<String, Object>> dataList = supportOrderPageMapper.getOrderData(paramMap);
 		return stand_by_title(dataList, getOrderColumnName());
 	}
+	
+	public Integer getTotalCount(HashMap<String, Object> paramMap) {
+		
+		return supportOrderPageMapper.getTotalCount(paramMap);
+	}
 
 	public List<Object[]> getExcelData(HashMap<String, Object> paramMap) {
 
