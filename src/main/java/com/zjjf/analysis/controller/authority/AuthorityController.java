@@ -4,12 +4,16 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.zjjf.analysis.beans.analysis.users.UserInfos;
+import com.zjjf.analysis.common.constants.SessionConfig;
 import com.zjjf.analysis.controller.BaseController;
 import com.zjjf.analysis.services.authority.AuthorityServcie;
 
@@ -30,7 +34,7 @@ public class AuthorityController extends BaseController {
 	
 
 	/**
-	 * 获取交易订单数据
+	 * 添加角色
 	 * 
 	 * @param request
 	 * @return
@@ -39,9 +43,25 @@ public class AuthorityController extends BaseController {
 	@ResponseBody
 	public HashMap<String, Object> addRoles(HttpServletRequest request, @RequestBody JSONObject jsonObj) {
 
-
+		String userId = (String)SecurityUtils.getSubject().getSession().getAttribute(SessionConfig.userId);
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		authorityServcie.addRoles(jsonObj);
+		authorityServcie.addRoles(jsonObj, userId);
+		return resultMap;
+	}
+	
+	/**
+	 * 用户授权
+	 * 
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/grantUser.do")
+	@ResponseBody
+	public HashMap<String, Object> grantUser(HttpServletRequest request, @RequestBody JSONObject jsonObj) {
+
+		String userId = (String)SecurityUtils.getSubject().getSession().getAttribute(SessionConfig.userId);
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		authorityServcie.grantUser(jsonObj, userId);
 		return resultMap;
 	}
 	

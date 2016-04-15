@@ -1,11 +1,11 @@
 package com.zjjf.analysis.mapper.analysis;
 
-import com.zjjf.analysis.beans.analysis.authority.BaseRoleAuthorityKey;
+import com.zjjf.analysis.beans.analysis.authority.BaseRoleAuthority;
 
 public interface BaseRoleAuthorityMapper {
-    int deleteByPrimaryKey(BaseRoleAuthorityKey key);
+    int deleteByPrimaryKey(BaseRoleAuthority key);
 
-    int insert(BaseRoleAuthorityKey record);
+    int insert(BaseRoleAuthority record);
 
-    int insertSelective(BaseRoleAuthorityKey record);
+    int insertSelective(BaseRoleAuthority record);
 }

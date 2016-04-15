@@ -19,5 +19,5 @@ public interface BaseMenuMapper {
     int updateByPrimaryKey(BaseMenu record);
     
 
-    List<HashMap<String, Object>> getMenuTreeByUserId(String userId);
+    List<HashMap<String, Object>> getMenuLevel(HashMap<String, Object> paramMap);
 }

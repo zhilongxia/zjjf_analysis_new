@@ -9,17 +9,8 @@
     <script src="../../resources/js/comm.js"></script>
     <script src="<%=request.getContextPath() %>/resources/js/angular/angular.js"></script>
 	<script src="<%=request.getContextPath() %>/resources/js/pagination/tm.pagination.js"></script>
-    <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/bootstrap/3.2.0/css/bootstrap.min.css">
-    <style>
-        .page-list .pagination {float:left;}
-        .page-list .pagination span {cursor: pointer;}
-        .page-list .pagination .separate span{cursor: default; border-top:none;border-bottom:none;}
-        .page-list .pagination .separate span:hover {background: none;}
-        .page-list .page-total {float:left; margin: 25px 20px;}
-        .page-list .page-total input, .page-list .page-total select{height: 26px; border: 1px solid #ddd;}
-        .page-list .page-total input {width: 40px; padding-left:3px;}
-        .page-list .page-total select {width: 50px;}
-    </style>
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/pagination_boostrap.css">
 </head>
 <body class="wrap-bd" ng-controller="tableController">
 	<div class="mb-default">
@@ -56,7 +47,7 @@
 	    <div class="fl">
 	      	  下单时间
 	        <input type="text" class="input input-date J_timeS" onchange="" ng-model="addTimeBegin"> 至  <input type="text" class="input input-date J_timeE" onchange="" ng-model="addTimeEnd">
-	        <span class="pills pills-active ml-default">昨天</span>
+	        <span class="pills pills-active ml-default" >昨天</span>
 	        <span class="pills">最近7天</span>
 	        <span class="pills">最近30天</span>
 	    </div>
@@ -128,10 +119,11 @@
 	        }];
 	    });
 
-	    app.controller('tableController', ['$scope', 'getOrderlistService', 'getAreaByCityIdService', function ($scope, getOrderlistService, getAreaByCityIdService) {
+	    app.controller('tableController', ['$scope', 'getOrderlistService', 'getAreaByCityIdService', 'excelExportOrderlistService', 
+	                                       function ($scope, getOrderlistService, getAreaByCityIdService, excelExportOrderlistService) {
 	    	
 	        var loadPage = function () {
-	            scope.queryOrders();
+	            $scope.queryOrders();
 	        }
 	        //配置分页基本参数
 	        $scope.paginationConf = {
@@ -160,7 +152,10 @@
 	    	}
 	    	// 导出Excel
 	    	$scope.excelExport = function(){
-	    		getOrderlistService.list(getParam()).success(function (result) {
+	    		
+	    		//window.open(tableController_url, target="_blank");
+	    		excelExportOrderlistService.list(getParam()).success(function (result) {
+	    			window.open(result);
 	            });	  	
 	    	}
 	    	// 根据城市获取区域
@@ -201,6 +196,16 @@
 	    app.factory('getOrderlistService', ['$http', function ($http) {
 	        var list = function (postData) {
 	            return $http.post(tableController_url, postData);
+	        }
+	        return {
+	            list: function (postData) {
+	                return list(postData);
+	            }
+	        }
+	    }]);
+	    app.factory('excelExportOrderlistService', ['$http', function ($http) {
+	        var list = function (postData) {
+	            return $http.post(export_url, postData);
 	        }
 	        return {
 	            list: function (postData) {

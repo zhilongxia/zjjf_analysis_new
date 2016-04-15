@@ -2,6 +2,9 @@ package com.zjjf.analysis.common.constants;
 
 public class SessionConfig {
 
+	
+	public final static String userId = "userId";
+	
 	public final static String user_session_key = "user_session_key";
 	
 	public final static String user_session_userInfo = "user_session_userInfo";

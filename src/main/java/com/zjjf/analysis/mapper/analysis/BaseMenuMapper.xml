@@ -163,8 +163,10 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   
-  <select id="getMenuTreeByUserId" resultType="java.util.Map" parameterType="java.lang.String" >
+  <select id="getMenuLevel" resultType="java.util.Map" parameterType="java.util.Map" >
 		select 
+		  t1.id,
+		  t1.treeClass,
 		  t1.`menuName`,
 		  t1.`menuUrl`,
 		  t1.`menuNo`,
@@ -172,5 +174,13 @@
 		  t1.`authString`
 		from
 		  `base_menu` t1 
+		  <where>
+		  	  <if test="level != null and level != ''" >
+		        and t1.level = #{level}
+		      </if>
+		      <if test="pid != null and pid != ''" >
+		        and t1.pid = #{pid}
+		      </if>
+		  </where> order by t1.ordId
   </select>
 </mapper>

@@ -1,6 +1,6 @@
 package com.zjjf.analysis.beans.analysis.authority;
 
-public class BaseRoleAuthorityKey {
+public class BaseRoleAuthority {
     private Integer roleId;
 
     private Integer authId;

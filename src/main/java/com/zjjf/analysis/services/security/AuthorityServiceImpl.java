@@ -43,6 +43,7 @@ public class AuthorityServiceImpl {
 
 		UserInfos userInfo = new UserInfos();
 		userInfo.setId("1");
+		SecurityUtils.getSubject().getSession().setAttribute(SessionConfig.userId, userInfo.getId());
 		SecurityUtils.getSubject().getSession().setAttribute(SessionConfig.user_session_key, userInfo);
 		SecurityUtils.getSubject().getSession().setAttribute(SessionConfig.user_type_key, SessionConfig.user_scmg);
 		SecurityUtils.getSubject().getSession().setAttribute(SessionConfig.menuTree, getMenuTree("test"));
@@ -109,7 +110,17 @@ public class AuthorityServiceImpl {
 
 	public List<HashMap<String, Object>> getMenuTree(String userId) {
 
-		List<HashMap<String, Object>> menuTree = baseMenuMapper.getMenuTreeByUserId(userId);
+		HashMap<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("level", 1);
+		paramMap.put("userId", userId);
+		List<HashMap<String, Object>> menuTree = baseMenuMapper.getMenuLevel(paramMap);
+		for (HashMap<String, Object> hashMap : menuTree) {
+			paramMap.clear();
+			paramMap.put("pid", hashMap.get("id"));
+			paramMap.put("level", 2);
+			List<HashMap<String, Object>> level2Tree = baseMenuMapper.getMenuLevel(paramMap);
+			hashMap.put("level2Tree", level2Tree);
+		}
 		return menuTree;
 	}
 }

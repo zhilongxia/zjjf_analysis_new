@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.zjjf.analysis.controller.BaseController;
 import com.zjjf.analysis.services.orders.SupportOrdersServcie;
@@ -34,7 +35,7 @@ public class ExcelExportController extends BaseController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "/portExcel.do")
+	@RequestMapping(value = "/portExcel.do", method = RequestMethod.GET)
 	public String portExcel(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		OutputStream outputStream = response.getOutputStream();
@@ -57,7 +58,6 @@ public class ExcelExportController extends BaseController {
 		while ((bytesRead = inputStream.read(buffer)) != -1) {
 			outputStream.write(buffer, 0, bytesRead);
 		}
-
 		outputStream.close();
 		return null;
 	}
