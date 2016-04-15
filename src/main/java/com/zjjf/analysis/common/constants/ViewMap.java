@@ -18,7 +18,7 @@ public class ViewMap {
 		viewTable[10] = new String[] { "coupon", "优惠券金额" };
 		viewTable[11] = new String[] { "rebate", "满减" };
 		viewTable[12] = new String[] { "orderPrice", "订单金额" };
-		viewTable[13] = new String[] { "orderPrice", "订单费用" };
+		viewTable[13] = new String[] { "fee", "订单费用" };
 		viewTable[14] = new String[] { "supportmetho", "订单支付方式" };
 		viewTable[15] = new String[] { "supportStatus", "支付状态" };
 		viewTable[16] = new String[] { "supplierName", "配送商" };
