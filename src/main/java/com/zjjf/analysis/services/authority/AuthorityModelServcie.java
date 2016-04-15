@@ -14,7 +14,7 @@ import com.zjjf.analysis.mapper.analysis.BaseRoleUserMapper;
 import net.sf.json.JSONObject;
 
 @Service
-public class AuthorityServcie {
+public class AuthorityModelServcie {
 
 	@Autowired
 	private BaseRoleMapper baseRoleMapper;

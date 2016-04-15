@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zjjf.analysis.common.constants.SessionConfig;
 import com.zjjf.analysis.controller.BaseController;
-import com.zjjf.analysis.services.authority.AuthorityServcie;
+import com.zjjf.analysis.services.authority.AuthorityModelServcie;
 
 import net.sf.json.JSONObject;
 
@@ -22,7 +22,7 @@ import net.sf.json.JSONObject;
 public class AuthorityController extends BaseController {
 	
 	@Autowired
-	private AuthorityServcie authorityServcie;
+	private AuthorityModelServcie authorityServcie;
 
 	@RequestMapping(value = "/loadPage.do")
 	public String loaded(HttpServletRequest request) {

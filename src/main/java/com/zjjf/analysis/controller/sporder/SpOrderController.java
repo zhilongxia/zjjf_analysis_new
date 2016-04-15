@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.zjjf.analysis.common.constants.SessionConfig;
 import com.zjjf.analysis.controller.BaseController;
 import com.zjjf.analysis.services.orders.SupportOrdersServcie;
 
@@ -40,13 +38,9 @@ public class SpOrderController extends BaseController {
 	 * @param request
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/spOrderList.do")
 	@ResponseBody
 	public HashMap<String, Object> querySpOrders(HttpServletRequest request) {
-
-		HashMap<String, Object> anthorityData = (HashMap<String, Object>) SecurityUtils.getSubject().getSession().getAttribute(SessionConfig.authorityDataKey);
-		String filterKeys = anthorityData.get(SessionConfig.filterKeys) + "";
 		
 		String currentPage = request.getParameter("currentPage") == null ? "1" : request.getParameter("currentPage");
 		String itemsPerPage = request.getParameter("itemsPerPage") == null ? "5" : request.getParameter("itemsPerPage");

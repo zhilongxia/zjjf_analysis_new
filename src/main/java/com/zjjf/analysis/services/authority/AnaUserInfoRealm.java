@@ -1,4 +1,4 @@
-package com.zjjf.analysis.services.security;
+package com.zjjf.analysis.services.authority;
 
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;

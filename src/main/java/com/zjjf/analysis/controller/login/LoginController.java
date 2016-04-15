@@ -26,7 +26,7 @@ import com.zjjf.analysis.beans.vo.ModelMsg;
 import com.zjjf.analysis.common.constants.LoginConstant;
 import com.zjjf.analysis.common.constants.SessionConfig;
 import com.zjjf.analysis.controller.BaseController;
-import com.zjjf.analysis.services.security.AuthorityServiceImpl;
+import com.zjjf.analysis.services.authority.AuthorityServiceImpl;
 import com.zjjf.analysis.utils.ResponseUtils;
 
 @Controller
@@ -72,47 +72,47 @@ public class LoginController extends BaseController {
 	@ResponseBody
 	public Object userLoginIn(LoginVo loginRo, HttpSession session, HttpServletRequest request, Model model) {
 
-		// ²ÎÊýÐ£Ñé
+		// ï¿½ï¿½ï¿½ï¿½Ð£ï¿½ï¿½
 		if (loginRo == null || StringUtils.isEmpty(loginRo.getUserName()) || StringUtils.isEmpty(loginRo.getPassword())) {
-			return ResponseUtils.sendMsg(false, "ÇëÊäÈëÓÃ»§ÃûÃÜÂëºóµÇÂ½£¡");
+			return ResponseUtils.sendMsg(false, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â½ï¿½ï¿½");
 		}
-		// ·ÀÖ¹ÖØ¸´µÇÂ½
+		// ï¿½ï¿½Ö¹ï¿½Ø¸ï¿½ï¿½ï¿½Â½
 		UserInfos sp = getCurrentUser(UserInfos.class, request);
 		if (sp != null) {
-			return ResponseUtils.sendMsg(true, "ÓÃ»§ÒÑµÇÂ½", LoginConstant.already_login_url);
+			return ResponseUtils.sendMsg(true, "ï¿½Ã»ï¿½ï¿½Ñµï¿½Â½", LoginConstant.already_login_url);
 		}
-		// Ð£ÑéÑéÖ¤Âë
+		// Ð£ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½
 		if (StringUtils.isEmpty(loginRo.getCheckCode())) {
 			session.removeAttribute(SessionConfig.user_session_code);
-			return ResponseUtils.sendMsg(false, "ÑéÖ¤Âë²»ÄÜÎª¿Õ");
+			return ResponseUtils.sendMsg(false, "ï¿½ï¿½Ö¤ï¿½ë²»ï¿½ï¿½Îªï¿½ï¿½");
 		}
 		String serverCode = (String) session.getAttribute(SessionConfig.user_session_code);
 		if (serverCode == null || !serverCode.toLowerCase().equals(loginRo.getCheckCode().trim().toLowerCase())) {
 			session.removeAttribute(SessionConfig.user_session_code);
-			return ResponseUtils.sendMsg(false, "ÑéÖ¤Âë´íÎó");
+			return ResponseUtils.sendMsg(false, "ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½ï¿½");
 		}
-		// ´¦ÀíµÇÂ½
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Â½
 		try {
 			UsernamePasswordToken logintoken = new UsernamePasswordToken(loginRo.getUserName(), loginRo.getPassword(), true);
 			try {
 				SecurityUtils.getSubject().login(logintoken);
 			} catch (UnknownAccountException une) {
-				return ResponseUtils.sendMsg(false, "¶Ô²»ÆðÄú»¹Ã»ÓÐ×¢²á");
+				return ResponseUtils.sendMsg(false, "ï¿½Ô²ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½×¢ï¿½ï¿½");
 			} catch (Exception e) {
-				logger.error("ÓÃ»§µÇÂ½Òì³££º{}", loginRo.getUserName(), e);
-				return ResponseUtils.sendMsg(false, "ÓÃ»§Ãû»òÃÜÂë²»ÕýÈ·");
+				logger.error("ï¿½Ã»ï¿½ï¿½ï¿½Â½ï¿½ì³£ï¿½ï¿½{}", loginRo.getUserName(), e);
+				return ResponseUtils.sendMsg(false, "ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë²»ï¿½ï¿½È·");
 			}
 			// ModelMsg msg =
 			// authorityService.dealSupplierSuccessLogin(loginRo,request,model);
 			ModelMsg msg = authorityService.dealScMgSuccessLogin(loginRo, request, model);
 			if (msg != null && msg.isSuccess()) {
-				return ResponseUtils.sendMsg(true, "µÇÂ½³É¹¦", LoginConstant.already_login_url);
+				return ResponseUtils.sendMsg(true, "ï¿½ï¿½Â½ï¿½É¹ï¿½", LoginConstant.already_login_url);
 			} else {
 				return ResponseUtils.sendMsg(false, msg.getMessage());
 			}
 		} catch (Exception e) {
-			logger.error("ÓÃ»§µÇÂ½ºó´¦ÀíÒì³££º", e);
-			return ResponseUtils.sendMsg(false, "µÇÂ½Òì³£");
+			logger.error("ï¿½Ã»ï¿½ï¿½ï¿½Â½ï¿½ï¿½ï¿½ï¿½ï¿½ì³£ï¿½ï¿½", e);
+			return ResponseUtils.sendMsg(false, "ï¿½ï¿½Â½ï¿½ì³£");
 		}
 	}
 

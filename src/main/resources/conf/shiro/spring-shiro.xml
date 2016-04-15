@@ -12,7 +12,7 @@ http://www.springframework.org/schema/aop
 http://www.springframework.org/schema/aop/spring-aop-4.0.xsd"
 default-autowire="byName">
 	
-	<bean id="userRealm" class=" com.zjjf.analysis.services.security.AnaUserInfoRealm"/>
+	<bean id="userRealm" class=" com.zjjf.analysis.services.authority.AnaUserInfoRealm"/>
 	
 	<!-- 配置权限管理器 -->  
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">    
