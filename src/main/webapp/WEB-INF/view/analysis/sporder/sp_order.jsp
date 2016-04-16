@@ -77,7 +77,7 @@
 	    });
 	    
 	    var tableController_url = root + '/api/sp_order/spOrderList.do';
-	    var export_url = root + '/report/excelExport/portExcel.do';
+	    var export_url = root + '/api/sp_order/portExcel.do';
 	    var changeCity_url = root + '/api/base_core/getAreaByCityId.do';
 	    
 	    var app = angular.module('orderTable', ['tm.pagination']); // 第二个参数定义了Module依赖 
@@ -126,13 +126,13 @@
 	            $scope.queryOrders();
 	        }
 	        //配置分页基本参数
-	        $scope.paginationConf = {
+ 	        $scope.paginationConf = {
 	            currentPage: 1,
 	            itemsPerPage: 5,
 	            onChange: function(){
-	            	$scope.queryOrders();
+	            	//$scope.queryOrders();
 	            }
-	        };
+	        }; 
 	        // 查询订单
 			$scope.queryOrders = function(){
 				getOrderlistService.list(getParam()).success(function (result) {
@@ -205,7 +205,7 @@
 	    }]);
 	    app.factory('excelExportOrderlistService', ['$http', function ($http) {
 	        var list = function (postData) {
-	            return $http.post(export_url, postData);
+	            return $http.get(export_url, postData);
 	        }
 	        return {
 	            list: function (postData) {

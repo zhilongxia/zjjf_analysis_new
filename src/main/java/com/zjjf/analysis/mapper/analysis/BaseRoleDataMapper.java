@@ -1,8 +1,8 @@
 package com.zjjf.analysis.mapper.analysis;
 
-import java.util.List;
+import java.util.HashMap;
 
-import com.zjjf.analysis.beans.analysis.authority.BaseRoleData;
+import com.zjjf.analysis.beans.analysis.base.BaseRoleData;
 
 public interface BaseRoleDataMapper {
     int deleteByPrimaryKey(Integer id);
@@ -17,5 +17,5 @@ public interface BaseRoleDataMapper {
 
     int updateByPrimaryKey(BaseRoleData record);
     
-    List<BaseRoleData> getAuthorityData(String userId);
+    BaseRoleData getAuthorityData(HashMap<String, Object> dataParam);
 }

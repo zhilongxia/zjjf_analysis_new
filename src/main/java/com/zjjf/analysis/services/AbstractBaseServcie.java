@@ -16,10 +16,13 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.zjjf.analysis.beans.analysis.authority.BaseRole;
 import com.zjjf.analysis.beans.analysis.base.AnaDictionary;
+import com.zjjf.analysis.common.constants.Constants;
 import com.zjjf.analysis.controller.IView;
 import com.zjjf.analysis.mapper.analysis.AnaDictionaryMapper;
 import com.zjjf.analysis.mapper.analysis.BaseRegionMapper;
+import com.zjjf.analysis.mapper.analysis.BaseRoleMapper;
 import com.zjjf.analysis.mapper.analysis.BaseSpGroupMapper;
 
 @Service
@@ -34,21 +37,34 @@ public abstract class AbstractBaseServcie implements IView{
 	@Autowired
 	private  AnaDictionaryMapper anaDictionaryMapper;
 	
-	public abstract Object[] sort_by_viewTitle(HashMap<String, Object> t, String [] viewTitle);
+	@Autowired
+	private BaseRoleMapper baseRoleMapper;
 	
-	public String [] getColumn(String[][] tableView, Integer key){
+	public Object[] sort_by_viewTitle(HashMap<String, Object> t, Object[] idColumn) {
+
+		Object[] row = new Object[idColumn.length];
+		for (int i = 0; i < idColumn.length; i++) {
+			String key = (idColumn[i] + "").replace(Constants.authority_query, "");
+			if (t.containsKey(key)) {
+				row[i] = t.get(key);
+			}
+		}
+		return row;
+	}
+	
+	public Object [] getColumn(Object[][] tableView, Integer key){
 		
-		String [] idColumn = new String[tableView.length];
+		Object [] idColumn = new Object[tableView.length];
 		for (int i = 0; i < tableView.length; i++) {
-			String[] str = tableView[i];
+			Object[] str = tableView[i];
 			idColumn[i] = str[key];
 		}
 		return idColumn;
 	}
 	
-	public List<Object[]> stand_by_title(List<HashMap<String, Object>> _list, String [] idColumn){
+	public List<Object[]> stand_by_title(List<HashMap<String, Object>> _list, Object [] idColumn){
 		
-		 List<Object[]> idColumnList = new ArrayList<Object[]>();
+		List<Object[]> idColumnList = new ArrayList<Object[]>();
 		for (HashMap<String, Object> t : _list) {
 			Object[] temp = sort_by_viewTitle(t, idColumn);
 			idColumnList.add(temp);
@@ -68,7 +84,7 @@ public abstract class AbstractBaseServcie implements IView{
 	 * @return
 	 */
 	@SuppressWarnings({ "deprecation", "resource" })
-	public InputStream createExcel(String sheetName, String [] titleColumn, List<Object[]> dataList) {
+	public InputStream createExcel(String sheetName, Object [] titleColumn, List<Object[]> dataList) {
 
         HSSFWorkbook wb = new HSSFWorkbook();  
         HSSFSheet sheet = wb.createSheet(sheetName);  
@@ -83,7 +99,7 @@ public abstract class AbstractBaseServcie implements IView{
 
         HSSFCell cell = row.createCell((short) 0); 
         for (int i = 0; i < titleColumn.length; i++) {
-			String titleName = titleColumn[i];
+			String titleName = "" + titleColumn[i];
 			 cell.setCellValue(titleName); 
         	 cell.setCellStyle(style);  
         	 cell = row.createCell(i);  
@@ -130,5 +146,10 @@ public abstract class AbstractBaseServcie implements IView{
 	public List<AnaDictionary> getByDictId(String dictId) {
 		
 		return anaDictionaryMapper.getByDictId(dictId);
+	}
+	
+	public List<BaseRole> getBaseRoleByUserId(String userId){
+		
+		return baseRoleMapper.getRoleByUserId(userId);
 	}
 }

@@ -9,5 +9,5 @@ public interface IView {
 	 * @param key
 	 * @return
 	 */
-	String [] getColumn(String[][] tableView, Integer key);
+	Object [] getColumn(Object[][] authorityArray, Integer key_or_name);
 }

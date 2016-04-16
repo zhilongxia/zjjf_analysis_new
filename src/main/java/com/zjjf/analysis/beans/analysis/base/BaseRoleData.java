@@ -1,13 +1,13 @@
-package com.zjjf.analysis.beans.analysis.authority;
+package com.zjjf.analysis.beans.analysis.base;
 
 public class BaseRoleData {
     private Integer id;
 
     private Integer level;
 
-    private String userId;
+    private String roleIds;
 
-    private String dataIds;
+    private Integer menuId;
 
     private String tableKey;
 
@@ -27,20 +27,20 @@ public class BaseRoleData {
         this.level = level;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getRoleIds() {
+        return roleIds;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId == null ? null : userId.trim();
+    public void setRoleIds(String roleIds) {
+        this.roleIds = roleIds == null ? null : roleIds.trim();
     }
 
-    public String getDataIds() {
-        return dataIds;
+    public Integer getMenuId() {
+        return menuId;
     }
 
-    public void setDataIds(String dataIds) {
-        this.dataIds = dataIds == null ? null : dataIds.trim();
+    public void setMenuId(Integer menuId) {
+        this.menuId = menuId;
     }
 
     public String getTableKey() {

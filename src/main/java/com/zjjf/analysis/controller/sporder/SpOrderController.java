@@ -1,18 +1,27 @@
 package com.zjjf.analysis.controller.sporder;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.zjjf.analysis.common.constants.SessionConfig;
+import com.zjjf.analysis.common.constants.ViewMap;
 import com.zjjf.analysis.controller.BaseController;
+import com.zjjf.analysis.services.authority.AuthorityDataServcie;
 import com.zjjf.analysis.services.orders.SupportOrdersServcie;
 
 @Controller
@@ -23,6 +32,9 @@ public class SpOrderController extends BaseController {
 
 	@Autowired
 	private SupportOrdersServcie supportOrdersServcie;
+	
+	@Autowired
+	AuthorityDataServcie authorityDataServcie;
 
 	private static Logger logger = LoggerFactory.getLogger(SpOrderController.class);
 
@@ -44,20 +56,59 @@ public class SpOrderController extends BaseController {
 		
 		String currentPage = request.getParameter("currentPage") == null ? "1" : request.getParameter("currentPage");
 		String itemsPerPage = request.getParameter("itemsPerPage") == null ? "5" : request.getParameter("itemsPerPage");
+		String _menuId = request.getParameter("menuId") == null ? "0" : request.getParameter("menuId");
+		String userId = (String)SecurityUtils.getSubject().getSession().getAttribute(SessionConfig.userId);
 		
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-
 		HashMap<String, Object> paramMap = getQueryMap(request, Arrays.asList("cityId", "areaId", "spGroupId", "supportmetho", "supportStatus", "status", "orderNos",
 				"storeName", "supplierName", "addTimeBegin", "addTimeEnd"));
-
 		paramMap.put("pageNo", Integer.valueOf(currentPage) * limit);
 		paramMap.put("offset", Integer.valueOf(itemsPerPage));
 		logger.info("交易订单传入参数 paramMap:" + paramMap);
 	
+		Object[][] authorityArray = authorityDataServcie.getAuthorityFilter(userId, Integer.valueOf(_menuId), ViewMap.orderMapView());
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		
 		resultMap.put("optionList", supportOrdersServcie.getOptionList());
-		resultMap.put("key_cn", supportOrdersServcie.getOrderTitle());//1为id， 0为key
-		resultMap.put("dataList", supportOrdersServcie.getOrderData(paramMap));
+		resultMap.put("key_cn", supportOrdersServcie.getOrderTitleCn(authorityArray));//1为id， 0为key
+		resultMap.put("dataList", supportOrdersServcie.getOrderData(paramMap, authorityArray));
 		resultMap.put("totalCount", supportOrdersServcie.getTotalCount(paramMap));
 		return resultMap;
+	}
+	
+	/**
+	 * 获取交易订单数据
+	 * 
+	 * @param request
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/portExcel.do", method = RequestMethod.GET)
+	public String portExcel(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+		OutputStream outputStream = response.getOutputStream();
+		
+		String _menuId = request.getParameter("menuId") == null ? "0" : request.getParameter("menuId");
+		String userId = (String)SecurityUtils.getSubject().getSession().getAttribute(SessionConfig.userId);
+		HashMap<String, Object> paramMap = getQueryMap(request, Arrays.asList("cityId", "areaId", "spGroupId", "supportmetho", "status", "orderNo",
+				"chirdOrderNo", "storeName", "supplierName", "addTimeBegin", "addTimeEnd"));
+		logger.info("交易订单传入参数 paramMap:" + paramMap);
+
+		String sheetName = "交易订单";
+
+		Object[][] authorityArray = authorityDataServcie.getAuthorityFilter(userId, Integer.valueOf(_menuId), ViewMap.orderMapView());
+		InputStream inputStream = supportOrdersServcie.exportOrderList(request, response, sheetName, paramMap, authorityArray);
+
+		// 设置文件类型
+		response.setContentType("application/vnd.ms-excel; charset=utf-8");
+		response.setHeader("Content-Disposition", "attachment;filename=" + sheetName);
+		response.setCharacterEncoding("utf-8");
+
+		byte[] buffer = new byte[1024];
+		int bytesRead;
+		while ((bytesRead = inputStream.read(buffer)) != -1) {
+			outputStream.write(buffer, 0, bytesRead);
+		}
+		outputStream.close();
+		return null;
 	}
 }

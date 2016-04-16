@@ -37,7 +37,7 @@ public class AuthorityServiceImpl {
 	public ModelMsg dealScMgSuccessLogin(LoginVo loginRo, HttpServletRequest request, Model model) {
 
 		UserInfos userInfo = new UserInfos();
-		userInfo.setId("1");
+		userInfo.setId("test");
 		SecurityUtils.getSubject().getSession().setAttribute(SessionConfig.userId, userInfo.getId());
 		SecurityUtils.getSubject().getSession().setAttribute(SessionConfig.user_session_key, userInfo);
 		SecurityUtils.getSubject().getSession().setAttribute(SessionConfig.user_type_key, SessionConfig.user_scmg);

@@ -1,6 +1,7 @@
 package com.zjjf.analysis.services.authority;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,14 +10,13 @@ import com.zjjf.analysis.beans.analysis.authority.BaseRole;
 import com.zjjf.analysis.mapper.analysis.BaseRoleMapper;
 
 @Service
-public class BaseRoleServcie{
+public abstract class BaseRoleServcie {
 
 	@Autowired
 	private BaseRoleMapper baseRoleMapper;
-	
 
-	public void add_base_role(String roleNo, String roleName, String roleRemark, String userId, Integer ordId){
-		
+	public void add_base_role(String roleNo, String roleName, String roleRemark, String userId, Integer ordId) {
+
 		BaseRole baseRole = new BaseRole();
 		baseRole.setRoleNo(roleNo);
 		baseRole.setRoleName(roleName);
@@ -27,5 +27,10 @@ public class BaseRoleServcie{
 		baseRole.setOrdId(ordId);
 		baseRole.setIsDelete("1");
 		baseRoleMapper.insert(baseRole);
+	}
+
+	public List<BaseRole> getBaseRoleByUserId(String userId) {
+
+		return baseRoleMapper.getRoleByUserId(userId);
 	}
 }

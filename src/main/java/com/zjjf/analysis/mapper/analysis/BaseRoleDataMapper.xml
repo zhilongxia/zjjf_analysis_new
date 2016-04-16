@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.zjjf.analysis.mapper.analysis.BaseRoleDataMapper" >
-  <resultMap id="BaseResultMap" type="com.zjjf.analysis.beans.analysis.authority.BaseRoleData" >
+  <resultMap id="BaseResultMap" type="com.zjjf.analysis.beans.analysis.base.BaseRoleData" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="level" property="level" jdbcType="INTEGER" />
-    <result column="userId" property="userId" jdbcType="VARCHAR" />
-    <result column="dataIds" property="dataIds" jdbcType="VARCHAR" />
+    <result column="roleIds" property="roleIds" jdbcType="VARCHAR" />
+    <result column="menuId" property="menuId" jdbcType="INTEGER" />
     <result column="tableKey" property="tableKey" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, level, userId, dataIds, tableKey
+    id, level, roleIds, menuId, tableKey
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -21,13 +21,13 @@
     delete from base_role_data
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.zjjf.analysis.beans.analysis.authority.BaseRoleData" >
-    insert into base_role_data (id, level, userId, 
-      dataIds, tableKey)
-    values (#{id,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, 
-      #{dataIds,jdbcType=VARCHAR}, #{tableKey,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="com.zjjf.analysis.beans.analysis.base.BaseRoleData" >
+    insert into base_role_data (id, level, roleIds, 
+      menuId, tableKey)
+    values (#{id,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, #{roleIds,jdbcType=VARCHAR}, 
+      #{menuId,jdbcType=INTEGER}, #{tableKey,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.zjjf.analysis.beans.analysis.authority.BaseRoleData" >
+  <insert id="insertSelective" parameterType="com.zjjf.analysis.beans.analysis.base.BaseRoleData" >
     insert into base_role_data
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -36,11 +36,11 @@
       <if test="level != null" >
         level,
       </if>
-      <if test="userId != null" >
-        userId,
+      <if test="roleIds != null" >
+        roleIds,
       </if>
-      <if test="dataIds != null" >
-        dataIds,
+      <if test="menuId != null" >
+        menuId,
       </if>
       <if test="tableKey != null" >
         tableKey,
@@ -53,28 +53,28 @@
       <if test="level != null" >
         #{level,jdbcType=INTEGER},
       </if>
-      <if test="userId != null" >
-        #{userId,jdbcType=VARCHAR},
+      <if test="roleIds != null" >
+        #{roleIds,jdbcType=VARCHAR},
       </if>
-      <if test="dataIds != null" >
-        #{dataIds,jdbcType=VARCHAR},
+      <if test="menuId != null" >
+        #{menuId,jdbcType=INTEGER},
       </if>
       <if test="tableKey != null" >
         #{tableKey,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.zjjf.analysis.beans.analysis.authority.BaseRoleData" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.zjjf.analysis.beans.analysis.base.BaseRoleData" >
     update base_role_data
     <set >
       <if test="level != null" >
         level = #{level,jdbcType=INTEGER},
       </if>
-      <if test="userId != null" >
-        userId = #{userId,jdbcType=VARCHAR},
+      <if test="roleIds != null" >
+        roleIds = #{roleIds,jdbcType=VARCHAR},
       </if>
-      <if test="dataIds != null" >
-        dataIds = #{dataIds,jdbcType=VARCHAR},
+      <if test="menuId != null" >
+        menuId = #{menuId,jdbcType=INTEGER},
       </if>
       <if test="tableKey != null" >
         tableKey = #{tableKey,jdbcType=VARCHAR},
@@ -82,16 +82,16 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.zjjf.analysis.beans.analysis.authority.BaseRoleData" >
+  <update id="updateByPrimaryKey" parameterType="com.zjjf.analysis.beans.analysis.base.BaseRoleData" >
     update base_role_data
     set level = #{level,jdbcType=INTEGER},
-      userId = #{userId,jdbcType=VARCHAR},
-      dataIds = #{dataIds,jdbcType=VARCHAR},
+      roleIds = #{roleIds,jdbcType=VARCHAR},
+      menuId = #{menuId,jdbcType=INTEGER},
       tableKey = #{tableKey,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   
-  <select id="getAuthorityData" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select  <include refid="Base_Column_List" /> from base_role_data where userId = #{userId}
+  <select id="getAuthorityData" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select <include refid="Base_Column_List" /> from base_role_data where menuId = #{menuId} and roleIds in ${roleIds}
   </select>
 </mapper>

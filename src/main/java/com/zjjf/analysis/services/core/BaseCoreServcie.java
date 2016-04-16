@@ -25,8 +25,9 @@ public class BaseCoreServcie extends AbstractBaseServcie {
 	}
 
 	@Override
-	public Object[] sort_by_viewTitle(HashMap<String, Object> t, String[] viewTitle) {
+	public Object[] getColumn(Object[][] authorityArray, Integer key_or_name) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 }
