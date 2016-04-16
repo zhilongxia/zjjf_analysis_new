@@ -18,9 +18,9 @@ import com.zjjf.analysis.services.authority.AuthorityModelServcie;
 import net.sf.json.JSONObject;
 
 @Controller
-@RequestMapping({ "/api/authority" })
-public class AuthorityController extends BaseController {
-	
+@RequestMapping({ "/api/authority/role" })
+public class AuthorityRoleController extends BaseController {
+
 	@Autowired
 	private AuthorityModelServcie authorityServcie;
 
@@ -28,8 +28,7 @@ public class AuthorityController extends BaseController {
 	public String loaded(HttpServletRequest request) {
 
 		return "analysis/authority/roles";
-	} 
-	
+	}
 
 	/**
 	 * 添加角色
@@ -38,29 +37,32 @@ public class AuthorityController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/addRoles.do")
-	@ResponseBody
-	public HashMap<String, Object> addRoles(HttpServletRequest request, @RequestBody JSONObject jsonObj) {
+	public @ResponseBody HashMap<String, Object> addRoles(HttpServletRequest request, @RequestBody JSONObject jsonObj) {
 
-		String userId = (String)SecurityUtils.getSubject().getSession().getAttribute(SessionConfig.userId);
+		String userId = (String) SecurityUtils.getSubject().getSession().getAttribute(SessionConfig.userId);
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		authorityServcie.addRoles(jsonObj, userId);
+
+		resultMap.put("exitRoles", authorityServcie.getRolesOption());
+		resultMap.put("menuTree", authorityServcie.getAllMenuTree());
 		return resultMap;
 	}
-	
+
 	/**
-	 * 用户授权
+	 * 添加角色
 	 * 
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value = "/grantUser.do")
-	@ResponseBody
-	public HashMap<String, Object> grantUser(HttpServletRequest request, @RequestBody JSONObject jsonObj) {
+	@RequestMapping(value = "/overrideRole.do")
+	public @ResponseBody HashMap<String, Object> overrideRole(HttpServletRequest request) {
 
-		String userId = (String)SecurityUtils.getSubject().getSession().getAttribute(SessionConfig.userId);
+		Integer roleId = Integer.valueOf(request.getParameter("roleId"));
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		authorityServcie.grantUser(jsonObj, userId);
+		authorityServcie.overrideRole(roleId);
+
+		resultMap.put("roleOption", authorityServcie.getRolesOption());
+		resultMap.put("menuTree", authorityServcie.getAllMenuTree());
 		return resultMap;
 	}
-	
 }

@@ -163,4 +163,12 @@
 		  left join `base_role_user` t2 on t2.roleId = t1.id 
 		where t2.userId = #{userId}
   </select>
+  
+  <select id="getAllRole" resultMap="BaseResultMap">
+  	  select <include refid="Base_Column_List" /> from base_role
+  </select>
+  
+  <select id="getRoleByRoleId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+  	  select <include refid="Base_Column_List" /> from base_role where id = #{id}
+  </select>
 </mapper>

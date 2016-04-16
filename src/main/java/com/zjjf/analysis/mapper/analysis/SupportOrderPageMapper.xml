@@ -51,7 +51,7 @@
 	      	 t5.name as "storeName",
 	      </if>
 		  <if test="queryaddTime != null and queryaddTime != '' " >
-	      	 data_format(t.addTime, '%Y-%m-%d') AS "addTime",
+	      	 date_format(t.addTime, '%Y-%m-%d') AS "addTime",
 	      </if>
 		  <if test="queryorderNo != null and queryorderNo != '' " >
 	      	 t.orderNo,
@@ -221,7 +221,7 @@
 		  t4.name as "spGroupName",
 		  t5.name as "storeName",
 		  t.addTime,
-		  DATE_FORMAT(t.addTime, '%Y-%m-%d') AS "addTime",
+		  date_format(t.addTime, '%Y-%m-%d') AS "addTime",
 		  t.orderNo,
 		  t.chirdOrderNo,
 		  t.quantity,

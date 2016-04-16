@@ -32,21 +32,22 @@ public class AuthorityDataServcie extends BaseRoleServcie {
 		HashMap<String, Object> dataParam = new HashMap<String, Object>();
 		dataParam.put("menuId", menuId);
 		dataParam.put("roleIds", roleIds.substring(0, roleIds.length() - 1) + ")");
-		BaseRoleData baseRoleData = baseRoleDataMapper.getAuthorityData(dataParam);
-		if (baseRoleData == null) {
+		dataParam.put("isChecked", 1);
+		List<BaseRoleData> baseRoleDataList = baseRoleDataMapper.getAuthorityData(dataParam);
+		if (baseRoleDataList == null || baseRoleDataList.size() == 0) {
 			return new Object[][] {};
 		}
-		return orderBy_view(baseRoleData.getTableKey().split(","), tableView);
+		return orderBy_view(baseRoleDataList, tableView);
 	}
 
-	private Object[][] orderBy_view(String needKeys[], String[][] tableView) {
+	private Object[][] orderBy_view(List<BaseRoleData> baseRoleDataList, String[][] tableView) {
 
-		Object[][] authorityArray = new Object[needKeys.length][2];
+		Object[][] authorityArray = new Object[baseRoleDataList.size()][2];
 		int k = 0;
 		for (int i = 0; i < tableView.length; i++) {
 			String[] viewKey = tableView[i];
-			for (int j = 0; j < needKeys.length; j++) {
-				String key = needKeys[j].trim();
+			for (BaseRoleData bean : baseRoleDataList) {
+				String key = bean.getTableKey();
 				if (viewKey != null && viewKey[0].equals(key)) {
 					authorityArray[k][0] = Constants.authority_query + viewKey[0];
 					authorityArray[k][1] = viewKey[1];

@@ -1,4 +1,4 @@
-package com.zjjf.analysis.controller;
+package com.zjjf.analysis.controller.login;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

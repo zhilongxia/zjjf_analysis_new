@@ -18,4 +18,8 @@ public interface BaseRoleMapper {
     int updateByPrimaryKey(BaseRole record);
     
     List<BaseRole> getRoleByUserId(String userId);
+    
+    List<BaseRole> getAllRole();
+    
+    BaseRole getRoleByRoleId(Integer roleId);
 }

@@ -1,53 +1,64 @@
 package com.zjjf.analysis.beans.analysis.base;
 
 public class BaseRoleData {
-    private Integer id;
+	private Integer id;
 
-    private Integer level;
+	private Integer level;
 
-    private String roleIds;
+	private String roleIds;
 
-    private Integer menuId;
+	private Integer menuId;
 
-    private String tableKey;
+	private String tableKey;
 
-    public Integer getId() {
-        return id;
-    }
+	private Integer isChecked;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public Integer getLevel() {
-        return level;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setLevel(Integer level) {
-        this.level = level;
-    }
+	public Integer getLevel() {
+		return level;
+	}
 
-    public String getRoleIds() {
-        return roleIds;
-    }
+	public void setLevel(Integer level) {
+		this.level = level;
+	}
 
-    public void setRoleIds(String roleIds) {
-        this.roleIds = roleIds == null ? null : roleIds.trim();
-    }
+	public String getRoleIds() {
+		return roleIds;
+	}
 
-    public Integer getMenuId() {
-        return menuId;
-    }
+	public void setRoleIds(String roleIds) {
+		this.roleIds = roleIds == null ? null : roleIds.trim();
+	}
 
-    public void setMenuId(Integer menuId) {
-        this.menuId = menuId;
-    }
+	public Integer getMenuId() {
+		return menuId;
+	}
 
-    public String getTableKey() {
-        return tableKey;
-    }
+	public void setMenuId(Integer menuId) {
+		this.menuId = menuId;
+	}
 
-    public void setTableKey(String tableKey) {
-        this.tableKey = tableKey == null ? null : tableKey.trim();
-    }
+	public String getTableKey() {
+		return tableKey;
+	}
+
+	public void setTableKey(String tableKey) {
+		this.tableKey = tableKey == null ? null : tableKey.trim();
+	}
+
+	public Integer getIsChecked() {
+		return isChecked;
+	}
+
+	public void setIsChecked(Integer isChecked) {
+		this.isChecked = isChecked;
+	}
+
 }
